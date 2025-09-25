@@ -59,6 +59,28 @@ jobs:
           test -s docs.json || { echo "docs.json is empty"; exit 1; }
           node -e "JSON.parse(require('fs').readFileSync('docs.json','utf8')); console.log('Base docs.json OK')"
 
+      - name: Ensure working tree is on docs branch
+        run: |
+          git checkout docs
+          echo "On branch: $(git rev-parse --abbrev-ref HEAD)"
+          echo "docs.json size: $(wc -c < docs.json) bytes"
+          echo "docs.json head (first 200 chars):"
+          head -c 200 docs.json || true
+          echo "\n"
+
+      - name: Debug: show subrepo docs.json excerpt
+        run: |
+          rm -rf _subrepo || true
+          git clone --depth 1 --branch main https://github.com/wheat2021/mcphub-docs _subrepo
+          if [ -f _subrepo/docs.json ]; then
+            echo "Subrepo docs.json size: $(wc -c < _subrepo/docs.json) bytes"
+            echo "Subrepo docs.json head (first 200 chars):"
+            head -c 200 _subrepo/docs.json || true
+            echo "\n"
+          else
+            echo "Subrepo docs.json missing!" && exit 1
+          fi
+
       - name: Aggregate from subrepositories
         uses: mintlify/mintlify-multirepo-action@v0.15
         with:
