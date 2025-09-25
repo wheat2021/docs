@@ -6,6 +6,9 @@ on:
   schedule:
     - cron: '0 0 * * *'
 
+permissions:
+  contents: write
+
 concurrency:
   group: aggregate-mintlify-docs
   cancel-in-progress: true
@@ -16,19 +19,37 @@ jobs:
     steps:
       - name: Checkout base repo
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Seed target branch with docs.json if missing
+        shell: bash
+        run: |
+          set -euo pipefail
+          TARGET_BRANCH="docs"
+          if git ls-remote --exit-code --heads origin "$TARGET_BRANCH" > /dev/null 2>&1; then
+            echo "Target branch exists: $TARGET_BRANCH"
+          else
+            echo "Creating target branch: $TARGET_BRANCH"
+            git checkout -b "$TARGET_BRANCH"
+            if [ ! -f docs.json ]; then
+              echo "docs.json not found in current tree; checking out from main"
+              git checkout main -- docs.json || { echo "docs.json missing on main"; exit 1; }
+            fi
+            git add docs.json
+            git -c user.name="Mintie Bot" -c user.email="aws@mintlify.com" commit -m "chore: seed docs.json for multirepo aggregation" || true
+            git push origin "$TARGET_BRANCH"
+            git checkout -
+          fi
 
       - name: Aggregate from subrepositories
         uses: mintlify/mintlify-multirepo-action@v0.15
         with:
-          # 用于将聚合后的内容推送回本仓库 target-branch 的 PAT（存放于 Secrets）
           token: ${{ secrets.PUSH_TOKEN }}
-          # 聚合结果推送到的分支；Mintlify 站点请指向该分支
           target-branch: docs
-          # 如果 base 仓库的 docs.json 不在仓库根目录，请取消注释并设置路径
-          # subdirectory: ./
-          # 需要聚合的子仓库列表（可继续追加）
+          subdirectory: ./
           repos: |
             - owner: wheat2021
               repo: mcphub-docs
-              # ref: main            # 如需固定分支/Tag 可取消注释
-              # subdirectory: ./     # 若子仓 docs.json 在子目录内，填写该子目录路径
+              # ref: main
+              # subdirectory: ./
