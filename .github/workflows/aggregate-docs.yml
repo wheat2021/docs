@@ -42,6 +42,11 @@ jobs:
             git checkout -
           fi
 
+      - name: Validate base docs.json
+        run: |
+          test -s docs.json || { echo "docs.json is empty"; exit 1; }
+          node -e "JSON.parse(require('fs').readFileSync('docs.json','utf8')); console.log('Base docs.json OK')"
+
       - name: Aggregate from subrepositories
         uses: mintlify/mintlify-multirepo-action@v0.15
         with:
@@ -51,5 +56,5 @@ jobs:
           repos: |
             - owner: wheat2021
               repo: mcphub-docs
-              # ref: main
+              ref: main
               # subdirectory: ./
