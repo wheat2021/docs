@@ -1,0 +1,34 @@
+name: Aggregate Mintlify Docs
+
+on:
+  push:
+    branches: ["main"]
+  schedule:
+    - cron: '0 0 * * *'
+
+concurrency:
+  group: aggregate-mintlify-docs
+  cancel-in-progress: true
+
+jobs:
+  aggregate-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout base repo
+        uses: actions/checkout@v4
+
+      - name: Aggregate from subrepositories
+        uses: mintlify/mintlify-multirepo-action@v0.15
+        with:
+          # 用于将聚合后的内容推送回本仓库 target-branch 的 PAT（存放于 Secrets）
+          token: ${{ secrets.PUSH_TOKEN }}
+          # 聚合结果推送到的分支；Mintlify 站点请指向该分支
+          target-branch: docs
+          # 如果 base 仓库的 docs.json 不在仓库根目录，请取消注释并设置路径
+          # subdirectory: ./
+          # 需要聚合的子仓库列表（可继续追加）
+          repos: |
+            - owner: wheat2021
+              repo: mcphub-docs
+              # ref: main            # 如需固定分支/Tag 可取消注释
+              # subdirectory: ./     # 若子仓 docs.json 在子目录内，填写该子目录路径
