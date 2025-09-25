@@ -22,13 +22,14 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Seed target branch with docs.json if missing
+      - name: Seed target branch with docs.json if missing and ensure non-empty
         shell: bash
         run: |
           set -euo pipefail
           TARGET_BRANCH="docs"
           if git ls-remote --exit-code --heads origin "$TARGET_BRANCH" > /dev/null 2>&1; then
             echo "Target branch exists: $TARGET_BRANCH"
+            git fetch origin "$TARGET_BRANCH":"$TARGET_BRANCH"
           else
             echo "Creating target branch: $TARGET_BRANCH"
             git checkout -b "$TARGET_BRANCH"
@@ -39,8 +40,19 @@ jobs:
             git add docs.json
             git -c user.name="Mintie Bot" -c user.email="aws@mintlify.com" commit -m "chore: seed docs.json for multirepo aggregation" || true
             git push origin "$TARGET_BRANCH"
-            git checkout -
           fi
+
+          # Ensure docs.json on target branch is non-empty
+          git checkout "$TARGET_BRANCH"
+          if [ ! -s docs.json ]; then
+            echo "docs.json on $TARGET_BRANCH is empty or missing; restoring from main"
+            git checkout main -- docs.json || { echo "docs.json missing on main"; exit 1; }
+            git add docs.json
+            git -c user.name="Mintie Bot" -c user.email="aws@mintlify.com" commit -m "fix: restore docs.json on $TARGET_BRANCH" || true
+            git push origin "$TARGET_BRANCH"
+          fi
+          echo "docs.json size on $TARGET_BRANCH: $(wc -c < docs.json) bytes"
+          git checkout -
 
       - name: Validate base docs.json
         run: |
