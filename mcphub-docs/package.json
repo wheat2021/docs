@@ -1,0 +1,27 @@
+{
+  "name": "mcphub-docs",
+  "version": "1.0.0",
+  "description": "MCPHub 官方中文文档",
+  "scripts": {
+    "dev": "mint dev --port 3009",
+    "dev:default": "mint dev",
+    "dev:3009": "mint dev --port 3009",
+    "start": "mint dev --port 3009",
+    "build": "echo 'Documentation is built automatically by Mintlify'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wheat2021/mcphub-docs.git"
+  },
+  "keywords": [
+    "mcphub",
+    "documentation",
+    "mcp",
+    "model-context-protocol"
+  ],
+  "author": "MCPHub Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

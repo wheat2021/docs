@@ -1,0 +1,81 @@
+---
+title: '导航与 Tabs'
+description: '在 docs.json 中定义顶部 Tabs、分组与页面路径的规则'
+icon: 'map'
+---
+
+文档的侧边导航与顶部 Tabs 由 `docs.json` 的 `navigation` 字段定义。添加页面后，需要在 `docs.json` 中登记，否则不会自动出现在侧栏中。
+
+## 语法与层级
+
+Mintlify 的导航语法支持递归嵌套：Tab -> 分组 -> 页面/子分组。页面路径不需要包含 `.mdx` 后缀。
+
+<CodeGroup>
+
+```json 常规导航
+"navigation": {
+  "tabs": [
+    {
+      "tab": "文档",
+      "groups": [
+        {
+          "group": "快速开始",
+          "pages": ["quickstart"]
+        }
+      ]
+    }
+  ]
+}
+```
+
+```json 含子分组的导航
+"navigation": {
+  "tabs": [
+    {
+      "tab": "文档",
+      "groups": [
+        {
+          "group": "快速开始",
+          "pages": [
+            "quickstart",
+            {
+              "group": "嵌套参考",
+              "pages": ["nested-reference-page"]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+</CodeGroup>
+
+## 目录与路径
+
+将 MDX 文件按目录组织，并在 `docs.json` 用相对站点根路径登记。例如：想让 `https://yoursite.com/your-folder/your-page` 可访问，你需要创建 `your-folder/your-page.mdx`，并在 `pages` 中写入 `"your-folder/your-page"`。
+
+<Warning>
+不能直接使用顶层文件夹名 `api`（Next.js 保留），如需相关命名请使用 `api-reference` 或将其嵌套在其他文件夹内。
+</Warning>
+
+```json 目录示例
+"navigation": {
+  "tabs": [
+    {
+      "tab": "文档",
+      "groups": [
+        {
+          "group": "分组示例",
+          "pages": ["your-folder/your-page"]
+        }
+      ]
+    }
+  ]
+}
+```
+
+## 隐藏页面
+
+未在 `docs.json` 引用的 MDX 页面不会出现在侧边栏，但仍可通过站内搜索或直接链接访问。

@@ -1,0 +1,49 @@
+---
+title: 'Mintlify 简介与工作机制'
+description: 'Mintlify 在本项目中的角色、开发与部署方式、文档结构说明'
+icon: 'book-open'
+---
+
+Mintlify 是一个面向开发者文档的站点框架与托管平台。本项目使用 Mintlify 构建与发布文档内容。
+
+本页概览 Mintlify 的工作机制与在本仓库中的具体使用方式，并引导你阅读后续细分主题：配置、导航、内容编写与媒体、代码块与可复用片段等。
+
+## 工作机制概览
+
+- 配置入口：使用根目录的 `docs.json` 定义主题、颜色、Logo、导航（Tabs 与分组）等全局设置。
+- 内容格式：采用 MDX（Markdown + JSX）撰写文档，支持组件（如 `<Tip/>`、`<Warning/>`、`<CodeGroup/>` 等）。
+- 本地开发：使用 Mintlify CLI 启动预览开发服务器。
+  - 安装：`npm i -g mintlify`
+  - 运行：`mintlify dev`（或运行项目脚本 `npm run dev`）
+- 部署与托管：本项目默认由 Mintlify 平台在推送到主分支后自动构建与发布（详见 README 的“发布更新”说明）。
+  - 与 GitHub Pages 不同：Mintlify 平台会在云端完成构建并托管站点，无需在仓库添加 Pages 工作流。
+
+## 文档结构（本项目）
+
+- `docs.json`：Mintlify 站点的全局配置与导航结构。
+- `*.mdx`：文档页面，按目录组织。
+- `snippets/`：可复用的 MDX 片段（不会独立渲染为页面）。
+- `images/`、`logo/`、`favicon.svg`：静态资源。
+
+## 本节内容
+
+- 基础配置：如何通过 `docs.json` 自定义站点外观与功能。
+- 导航与 Tabs：在侧边栏与顶部 Tab 中组织内容的方式。
+- 内容与媒体：Markdown 基础、图片与嵌入（iFrame/HTML）等。
+- 代码与片段：代码高亮块、可复用片段（snippets）。
+
+## 本地预览与校验
+
+1. 全局安装 CLI（如未安装）：
+   ```bash
+   npm i -g mintlify
+   ```
+2. 在仓库根目录运行：
+   ```bash
+   mintlify dev
+   ```
+3. 打开提示的网址预览新增的 “Mintlify” Tab 及其子页面。
+
+<Note>
+若你后续计划改用 GitHub Pages 自托管，需要迁移到能静态导出的框架（如 Docusaurus/VitePress/MkDocs）或使用 Mintlify 提供的静态导出能力（如开放）。当前仓库默认由 Mintlify 平台托管与构建。
+</Note>

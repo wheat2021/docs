@@ -1,0 +1,132 @@
+---
+title: '托管与自动部署（Mintlify 平台）'
+description: 'Mintlify 如何在云端托管与构建本仓库、触发机制与注意事项'
+icon: 'cloud'
+---
+
+本页介绍 Mintlify 平台如何托管与自动构建本仓库的文档站点，包括触发流程、配置步骤与常见注意事项。
+
+## 为什么选择 Mintlify 托管
+
+- 零运维：无需在仓库中维护 GitHub Pages/Netlify/Vercel 的工作流。
+- 云端构建：由 Mintlify 在云端执行构建与优化，自动生成可访问的站点。
+- 原生特性：内置搜索、组件库、API Playground、版本化与主题配置等能力。
+
+## 工作原理（概览）
+
+1. 连接仓库：在 Mintlify 仪表盘中授权并连接 GitHub 仓库。
+2. 推送触发：当你向指定分支（通常是 main）推送代码时，GitHub 通过 Webhook 通知 Mintlify。
+3. 云端构建：Mintlify 拉取仓库代码，根据根目录的 `docs.json` 和 MDX 内容进行构建（底层基于 Next.js，因而保留了顶层 `api` 路径）。
+4. 托管发布：构建产物托管在 Mintlify 的平台/CDN 上；你可绑定自定义域名并开启 HTTPS。
+
+<Note>
+本仓库的 `package.json` 中 `build` 脚本仅为占位（显示“Documentation is built automatically by Mintlify”），因为实际构建由 Mintlify 平台完成；本地开发使用 `mintlify dev`。
+</Note>
+
+## 配置步骤（一次性）
+
+1. 在 Mintlify 仪表盘创建站点，选择“连接 GitHub 仓库”。
+2. 选择仓库与分支（通常为 `main`），路径设为仓库根（即有 `docs.json` 的目录）。
+3. 保存后即可启用自动部署；后续每次 push 都会触发构建与发布。
+4. 如需自定义域名：
+   - 在 Mintlify 仪表盘添加你的自定义域名。
+   - 按提示在 DNS 服务商添加 CNAME/ALIAS 记录，等待生效与证书签发。
+
+## 自动构建与部署的注意事项
+
+- 分支与权限：确保 Mintlify 连接的分支与你实际发布用的分支一致；变更默认分支后需在仪表盘同步更新。
+- 顶层目录命名：不要在仓库根创建名为 `api` 的文件夹（Next.js 保留路径）。可使用 `api-reference` 或将 `api` 置于子目录。
+- 页面收录：未在 `docs.json` 导航中登记的 MDX 页面不会出现在侧栏，但仍可通过搜索/直链访问。
+- 链接规范：站内链接推荐使用以站点根为基准的绝对路径（如 `/Mintlify/index`），相对路径可用但优化较差。
+- 静态资源：
+  - 图片尽量小于 5MB，大文件建议托管在对象存储或 CDN 并以 URL 引用。
+  - 外链资源需使用 https，避免混合内容导致浏览器拦截。
+- OpenAPI 引用：在 `docs.json` 的 `openapi` 字段中配置 URL 或相对路径；体积过大的本地文件会影响构建与加载体验。
+- 环境变量与密钥：如需访问受限资源，请通过 Mintlify 仪表盘配置环境变量，避免将密钥写入仓库。
+- 与 GitHub Pages 的关系：无需再配置 GitHub Pages 或任何 Actions 部署工作流，以避免“重复托管/入口冲突”。
+- Monorepo 场景：若文档不在仓库根目录，请在 Mintlify 仪表盘明确配置子路径；并确保该路径下包含 `docs.json`。
+
+## 典型发布流程（从开发到上线）
+
+1. 本地开发：
+   ```bash
+   npm i -g mintlify
+   mintlify dev
+   ```
+2. 提交与推送：
+   ```bash
+   git add -A && git commit -m "docs: update" && git push
+   ```
+3. 等待构建：前往 Mintlify 仪表盘查看最新构建日志与站点链接。
+4. 验证上线：打开分配域名或你的自定义域名检查内容是否更新。
+
+## 多仓库聚合（官方 multirepo-action）
+
+你可以将多个 GitHub 仓库中的 Mintlify 文档聚合到一个“基础仓库（base repository）”里进行统一托管。官方提供了 mintlify/mintlify-multirepo-action 用于聚合：
+
+- 基础仓库：运行该 Action 的仓库，聚合后的完整文档将保存在此仓库的目标分支（例如 docs）。该仓库的 `docs.json` 负责全局样式与站点级配置。
+- 子仓库（subrepositories）：被聚合的其他文档仓库。每个子仓库必须包含一个带有有效 `navigation` 字段的 `docs.json`（用于声明该仓库内页面结构）。其他配置以基础仓库为准。
+
+### 最小工作流示例
+
+将如下文件保存为基础仓库的 `.github/workflows/aggregate-docs.yml`：
+
+```yaml
+name: Aggregate Mintlify Docs
+
+on:
+  push:
+    branches: ["main"]
+  schedule:
+    - cron: '0 0 * * *'  # 每天 0 点聚合一次（可选）
+
+concurrency:
+  group: aggregate-mintlify-docs
+  cancel-in-progress: true
+
+jobs:
+  aggregate-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout base repo
+        uses: actions/checkout@v4
+
+      - name: Aggregate
+        uses: mintlify/mintlify-multirepo-action@v0.15
+        with:
+          token: ${{ secrets.PUSH_TOKEN }}
+          target-branch: docs           # 聚合结果推送到 docs 分支
+          subdirectory: ./my-docs       # 可选：基础仓库中包含 docs.json 的子目录
+          repos: |
+            - owner: your-org
+              repo: repo-a              # 子仓库 A（必须含 docs.json 且有 navigation）
+            - owner: your-org
+              repo: repo-b
+              ref: v1.0.0               # 可选：指定子仓分支/Tag
+              subdirectory: ./docs-cn    # 可选：子仓 docs.json 所在子目录
+```
+
+<Warning>
+请将用于推送的 PAT 存放在 GitHub Secrets（如 `PUSH_TOKEN`）中，权限仅授予需要写入的仓库/分支（建议使用 Fine-grained PAT，至少需要 Contents: Read/Write）。不要在仓库中明文提交密钥。
+</Warning>
+
+### 连接站点与发布
+
+1. 在 Mintlify 仪表盘将该“聚合站点”连接到基础仓库的 `target-branch`（如 docs），并将根路径指向包含聚合后 `docs.json` 的目录（如果使用了 `subdirectory`）。
+2. 子仓库每次变更后，待工作流聚合完成即可在该统一站点生效。
+
+### 适用场景
+
+- 多产品/多代码仓但希望统一门户与搜索
+- 团队各自维护各自文档（贴近代码仓），由基础仓库做最终合并
+
+## 故障排查
+
+- 构建失败：在仪表盘查看日志，检查 `docs.json` 是否为有效 JSON，页面路径是否拼写正确。
+- 页面 404：确认页面是否已加入 `docs.json` 导航，或检查链接是否为站点根路径。
+- 资源加载失败：检查资源路径、大小与是否使用 https；跨域嵌入（iFrame）需目标站点允许。
+- 未触发构建：确认推送到了配置的分支，并检查 GitHub 授权与 Webhook 状态。
+
+<Warning>
+如需迁移到自托管（GitHub Pages 等），需要切换到支持静态导出的框架（Docusaurus/VitePress/MkDocs）或等待 Mintlify 提供稳定的静态导出能力，并相应调整部署流程。
+</Warning>

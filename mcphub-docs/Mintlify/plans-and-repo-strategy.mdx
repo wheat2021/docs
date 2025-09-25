@@ -1,0 +1,64 @@
+---
+title: '计划对比与仓库策略（Hobby/Pro/Custom）'
+description: 'Mintlify 各计划功能差异、Hobby 的限制与是否影响仓库/站点结构的决策指南'
+icon: 'scale-balanced'
+---
+
+本页对比 Mintlify 的计划（Hobby / Pro / Custom），并结合常见团队场景，给出“一个仓库一个站点”与“多个仓库多个站点”的决策建议。
+
+## 计划总览（概要）
+
+- Hobby（$0/月）
+  - 包含：完整平台能力（Full platform）、自定义域名（Custom domain）、Web editor、Git 同步、站内搜索、API playground、Analytics、自定义组件、用户反馈。
+  - 不包含：
+    - 团队协作（Invite team members）
+    - AI Assistant / AI writer
+    - MCP Server 托管
+    - 预览部署（Preview deployments）
+    - 语法/风格检查（Grammar & styling checks）
+    - 访问密码（Password protection）
+    - 迁移服务、去除品牌、企业级 SLA / SSO / PDF 导出 / 安全审查等
+- Pro（$250/月）
+  - 在 Hobby 基础上增加：团队成员邀请、AI 能力、MCP Server、预览部署、语法与风格检查、访问密码、迁移服务等。
+- Custom（企业方案）
+  - 在 Pro 基础上：自定义认证、99.999% uptime SLA、去除 Mintlify 品牌、优先构建时间、支持 SLA、安全与法务评审、SSO 登录、PDF 导出等。
+
+<Note>
+以上为关键差异的摘要，具体以官方页面为准。
+</Note>
+
+## Hobby 计划的关键限制与影响
+
+- 协作与权限：不支持在 Mintlify 后台邀请团队成员。多人编辑需走 Git PR 流程（可行，但无后台角色/权限划分）。
+- 访问控制：无 Password protection 和 SSO，不适合“私有/灰度文档”。
+- 预览体验：无云端 Preview Deployments（本地 `mintlify dev` 仍可用）。
+- 高阶能力：AI 写作/校对、MCP Server 托管、品牌去除、企业 SLA 等均不可用。
+
+## 是否影响仓库/站点定义策略？
+
+- 公开文档、维护者不多、主要通过 Git 协作：
+  - 建议继续“一个仓库一个站点”。使用导航 Tabs/Groups 就能承载多模块/多版本/多份 OpenAPI。
+  - Hobby 的限制通常不影响此策略。
+- 需要严格隔离与差异化（任一满足考虑升级或拆分）：
+  - 不同域名/品牌需要完全分开
+  - 各产品团队需要后台协同（Invite team members）
+  - 需要访问控制（Password/SSO）或企业合规能力
+  - 站点构建时间较长、产品迭代节奏显著不同，互不应影响
+
+## 推荐决策路径
+
+1. 现阶段（Hobby）：
+   - 采用单仓库、单站点，利用 Tabs 组织“产品/领域/版本”。
+   - 若暂时需要多站点，可在同一 Git 仓中用多个子目录（各含 `docs.json`）进行内容拆分，等升级后在仪表盘分别指向子路径。
+2. 升级到 Pro 或更高：
+   - 按产品/团队拆分为多个仓库与站点，分别绑定域名与权限；或保留单仓但在 Mintlify 仪表盘创建多个站点，指向不同子路径。
+
+## 示例：单站点承载多版本/多 API（思路）
+
+- 用 `navigation.tabs` 创建多个 Tab（如“API v1 / API v2”），每个 Tab 指定不同的 OpenAPI 源；或在同一 Tab 下用不同的 group 指向不同 `openapi.source`。
+- 在“文档”与“API 参考”两个 Tab 间分工：前者讲概念与教程，后者汇总 API 与 SDK。
+
+## 结论
+
+- 对 MCPHub 这类单一公共文档门户：Hobby 计划 + 单仓库单站点 是性价比最高的做法。
+- 一旦出现协作、访问控制、品牌与 SLA 等诉求，再考虑 Pro/Custom 与“多仓库多站点”的拆分策略。

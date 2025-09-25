@@ -1,0 +1,37 @@
+---
+title: '代码块（Code Blocks）'
+description: '在文档中展示行内代码与高亮代码块'
+icon: 'code'
+---
+
+## 基础
+
+### 行内代码（Inline Code）
+
+在单词或短语两侧使用反引号（`）来标注：`code`。
+
+```
+使用反引号（`）包裹以表示 `行内代码`。
+```
+
+### 代码块（Code Block）
+
+使用围栏代码块（fenced code blocks）：三反引号包裹，并在开头标注语言名；可选地加一个名称用于展示。
+
+```java HelloWorld.java
+class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}
+```
+
+````md
+```java HelloWorld.java
+class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}
+```
+````

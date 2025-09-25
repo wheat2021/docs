@@ -1,0 +1,101 @@
+---
+title: '可复用片段（Snippets）'
+description: '在 snippets 目录中定义可复用内容与变量/组件，并在页面中按需引入'
+icon: 'recycle'
+---
+
+import SnippetIntro from '/snippets/snippet-intro.mdx';
+
+<SnippetIntro />
+
+## 创建自定义片段
+
+**前置约定**：片段文件必须位于仓库根目录的 `snippets` 文件夹中。
+
+<Note>
+  `snippets` 目录下的页面不会作为独立页面渲染。若需要在某页面中展示片段，请以组件形式导入并调用。
+</Note>
+
+### 默认导出片段
+
+1. 在 `snippets` 中创建一个片段文件（可以包含可配置变量，通过 props 传入）。
+
+```mdx snippets/my-snippet.mdx
+Hello world! 这是我想在多处复用的内容。我的关键词是 {word}。
+```
+
+<Warning>
+  仅当内容在 `snippets` 目录中时，下面的导入路径才会生效。
+</Warning>
+
+2. 在目标页面中导入并使用：
+
+```mdx destination-file.mdx
+---
+title: 我的标题
+description: 我的描述
+---
+
+import MySnippet from '/snippets/path/to/my-snippet.mdx';
+
+## 标题
+
+页面正文...
+
+<MySnippet word="香蕉" />
+```
+
+### 可复用变量
+
+1. 在片段文件中导出变量：
+
+```mdx snippets/path/to/custom-variables.mdx
+export const myName = '我的名字';
+
+export const myObject = { fruit: '草莓' };
+```
+
+2. 在目标页面中导入并使用：
+
+```mdx destination-file.mdx
+---
+title: 我的标题
+description: 我的描述
+---
+
+import { myName, myObject } from '/snippets/path/to/custom-variables.mdx';
+
+你好，我的名字是 {myName}，我喜欢 {myObject.fruit}。
+```
+
+### 可复用组件
+
+1. 在片段文件中导出一个可传入 props 的组件：
+
+```mdx snippets/custom-component.mdx
+export const MyComponent = ({ title }) => (
+  <div>
+    <h1>{title}</h1>
+    <p>... 可复用片段内容 ...</p>
+  </div>
+);
+```
+
+<Warning>
+  箭头函数体内不编译 MDX。若需要使用 MDX 语法，请优先使用 HTML 语法，或采用默认导出形式编写片段。
+</Warning>
+
+2. 在目标页面中导入组件，并传入所需 props：
+
+```mdx destination-file.mdx
+---
+title: 我的标题
+description: 我的描述
+---
+
+import { MyComponent } from '/snippets/custom-component.mdx';
+
+Lorem ipsum dolor sit amet.
+
+<MyComponent title={'自定义标题'} />
+```
