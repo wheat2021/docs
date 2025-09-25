@@ -68,7 +68,7 @@ jobs:
           head -c 200 docs.json || true
           echo "\n"
 
-      - name: Debug: show subrepo docs.json excerpt
+      - name: Debug - show subrepo docs.json excerpt
         run: |
           rm -rf _subrepo || true
           git clone --depth 1 --branch main https://github.com/wheat2021/mcphub-docs _subrepo
