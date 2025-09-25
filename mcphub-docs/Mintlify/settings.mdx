@@ -1,0 +1,155 @@
+---
+title: '全局配置（docs.json）'
+description: '通过 docs.json 自定义站点的外观、导航、API、社交、模式切换等设置'
+icon: 'gear'
+---
+
+每个 Mintlify 站点都需要根目录下的 `docs.json` 文件来提供核心配置。下面按字段介绍常用配置与用法。
+
+## 主要字段
+
+<ResponseField name="name" type="string" required>
+项目名称，用于全局标题显示。
+
+示例：`mcphub-docs`
+</ResponseField>
+
+<ResponseField name="navigation" type="Navigation[]" required>
+  定义顶部 Tabs 与侧边栏分组与页面。
+  <Expandable title="Navigation（简化版）">
+    <ResponseField name="tabs" type="Tab[]">
+      顶部导航 Tab 列表。每个 Tab 下包含若干分组与页面。
+    </ResponseField>
+    <ResponseField name="tab" type="string">
+      Tab 名称（显示在顶部）。
+    </ResponseField>
+    <ResponseField name="groups" type="Group[]">
+      分组数组。
+    </ResponseField>
+    <ResponseField name="group" type="string">
+      分组名称（显示在侧边栏）。
+    </ResponseField>
+    <ResponseField name="pages" type="string[]">
+      页面路径列表（不需要 .mdx 后缀），例如：`["zh/index", "Mintlify/index"]`
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="logo" type="string or object">
+  站点 Logo（可为字符串路径，或包含 light/dark 的对象）。
+  <Expandable title="Logo">
+    <ResponseField name="light" type="string">
+      浅色主题下的 Logo 路径
+    </ResponseField>
+    <ResponseField name="dark" type="string">
+      深色主题下的 Logo 路径
+    </ResponseField>
+    <ResponseField name="href" type="string" default="/">
+      点击 Logo 时跳转地址
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="favicon" type="string">
+  Favicon 图标路径
+</ResponseField>
+
+<ResponseField name="colors" type="Colors">
+  站点主题色配置
+  <Expandable title="Colors">
+    <ResponseField name="primary" type="string" required>
+      主色（用于高亮、标题等）
+    </ResponseField>
+    <ResponseField name="light" type="string">
+      深色模式的主色
+    </ResponseField>
+    <ResponseField name="dark" type="string">
+      重要按钮颜色
+    </ResponseField>
+    <ResponseField name="background" type="object">
+      背景色（light/dark）
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="navbar" type="Navbar">
+  顶部导航栏的右侧链接和主要按钮设置。
+</ResponseField>
+
+<ResponseField name="footer" type="Footer">
+  页脚社交链接（如 GitHub、Discord 等）。
+</ResponseField>
+
+## API 设置
+
+<ResponseField name="api" type="API">
+  API Playground 相关配置。
+  <Expandable title="API">
+    <ResponseField name="baseUrl" type="string">
+      API 基础 URL，可为字符串或字符串数组（多环境切换）。
+    </ResponseField>
+    <ResponseField name="auth" type="Auth">
+      认证信息（bearer/basic/key）。
+    </ResponseField>
+    <ResponseField name="playground" type="Playground">
+      Playground 显示模式：`show` | `simple` | `hide`。
+    </ResponseField>
+    <ResponseField name="maintainOrder" type="boolean">
+      保持 OpenAPI 页面中字段顺序与文件一致（未来可能默认启用）。
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="openapi" type="string | string[]">
+  OpenAPI 文件的 URL 或相对路径，支持多个。
+  <CodeGroup>
+    ```json 单个（绝对）
+    "openapi": "https://example.com/openapi.json"
+    ```
+    ```json 单个（相对）
+    "openapi": "/openapi.json"
+    ```
+    ```json 多个
+    "openapi": ["https://example.com/openapi1.json", "/openapi2.json"]
+    ```
+  </CodeGroup>
+</ResponseField>
+
+## 反馈与社交
+
+<ResponseField name="footerSocials" type="FooterSocials">
+  页脚社交账号映射（键为平台名，值为 URL），如 `x`、`website`、`github` 等。
+</ResponseField>
+
+<ResponseField name="feedback" type="Feedback">
+  <Expandable title="Feedback">
+    <ResponseField name="suggestEdit" type="boolean" default="false">
+      是否显示“建议编辑”（通过 PR）
+    </ResponseField>
+    <ResponseField name="raiseIssue" type="boolean" default="false">
+      是否显示“报告问题”按钮
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## 模式切换与背景
+
+<ResponseField name="modeToggle" type="ModeToggle">
+  深浅色模式切换配置。
+  <Expandable title="ModeToggle">
+    <ResponseField name="default" type={'"light" or "dark"'}>
+      为新用户设定默认模式（未设置时跟随系统）。
+    </ResponseField>
+    <ResponseField name="isHidden" type="boolean" default="false">
+      设为 true 隐藏切换控件；可与 `default` 搭配来强制全站使用固定模式。
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="backgroundImage" type="string">
+  为所有页面设置统一的背景图。
+</ResponseField>
+
+<Note>
+以上字段为常用与关键子集，完整属性还包括 `global.anchors`、`navbar.links`、`navbar.primary` 等，具体可参考本项目的 `docs.json` 示例。
+</Note>

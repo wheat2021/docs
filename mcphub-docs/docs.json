@@ -1,0 +1,165 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "MCPHub 文档",
+  "colors": {
+    "primary": "#2563EB",
+    "light": "#3B82F6",
+    "dark": "#1D4ED8"
+  },
+  "favicon": "/favicon.svg",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "中文文档",
+        "groups": [
+          {
+            "group": "开始使用",
+            "pages": [
+              "zh/index",
+              "zh/getting-started/quickstart"
+            ]
+          },
+          {
+            "group": "安装配置",
+            "pages": [
+              "zh/installation/installation",
+              "zh/configuration/mcp-settings",
+              "zh/configuration/environment-variables",
+              "zh/configuration/docker-setup",
+              "zh/configuration/nginx"
+            ]
+          },
+          {
+            "group": "核心功能",
+            "pages": [
+              "zh/features/server-management",
+              "zh/features/group-management",
+              "zh/features/smart-routing",
+              "zh/features/authentication",
+              "zh/features/monitoring"
+            ]
+          },
+          {
+            "group": "开发指南",
+            "pages": [
+              "zh/development/getting-started",
+              "zh/development/detailed-setup"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API 参考",
+        "groups": [
+          {
+            "group": "API 文档",
+            "pages": [
+              "zh/api-reference/introduction",
+              "zh/api-reference/auth"
+            ]
+          },
+          {
+            "group": "核心接口",
+            "pages": [
+              "zh/api-reference/servers",
+              "zh/api-reference/groups",
+              "zh/api-reference/config",
+              "zh/api-reference/logs"
+            ]
+          },
+          {
+            "group": "MCP 协议",
+            "pages": [
+              "zh/api-reference/mcp-http",
+              "zh/api-reference/mcp-sse",
+              "zh/api-reference/smart-routing"
+            ]
+          },
+          {
+            "group": "集成工具",
+            "pages": [
+              "zh/api-reference/openapi"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Mintlify",
+        "groups": [
+          {
+            "group": "概览",
+            "pages": [
+              "Mintlify/index"
+            ]
+          },
+          {
+            "group": "基础配置",
+            "pages": [
+              "Mintlify/settings",
+              "Mintlify/navigation"
+            ]
+          },
+          {
+            "group": "部署与托管",
+            "pages": [
+              "Mintlify/hosting-deploy",
+              "Mintlify/plans-and-repo-strategy"
+            ]
+          },
+          {
+            "group": "内容与媒体",
+            "pages": [
+              "Mintlify/markdown",
+              "Mintlify/images",
+              "Mintlify/code",
+              "Mintlify/reusable-snippets"
+            ]
+          }
+        ]
+      }
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "GitHub",
+          "href": "https://github.com/samanhappy/mcphub",
+          "icon": "github"
+        },
+        {
+          "anchor": "Discord",
+          "href": "https://discord.gg/qMKNsn5Q",
+          "icon": "discord"
+        },
+        {
+          "anchor": "Sponsor",
+          "href": "https://ko-fi.com/samanhappy",
+          "icon": "heart"
+        }
+      ]
+    }
+  },
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Support",
+        "href": "https://discord.gg/qMKNsn5Q"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Docker Hub",
+      "href": "https://hub.docker.com/r/samanhappy/mcphub"
+    }
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/samanhappy/mcphub",
+      "discord": "https://discord.gg/qMKNsn5Q"
+    }
+  }
+}

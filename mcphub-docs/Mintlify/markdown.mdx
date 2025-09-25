@@ -1,0 +1,86 @@
+---
+title: 'Markdown 语法'
+description: '文内标题、文本格式、链接与引用等'
+icon: 'text-size'
+---
+
+## 标题（Titles）
+
+适合用作章节标题。
+
+```md
+## 标题
+```
+
+### 小标题（Subtitles）
+
+适合子章节标题。
+
+```md
+### 小标题
+```
+
+<Tip>
+每个二级、三级标题都会生成锚点，并显示在右侧目录中。
+</Tip>
+
+## 文本格式（Text Formatting）
+
+常见格式均可使用 Markdown：在文字两侧添加 `**`、`_`、`~`。
+
+| 样式 | 写法 | 效果 |
+| --- | --- | --- |
+| 粗体 | `**bold**` | **bold** |
+| 斜体 | `_italic_` | _italic_ |
+| 删除线 | `~strikethrough~` | ~strikethrough~ |
+
+可组合使用，如 `**_粗体+斜体_**` -> **_粗体+斜体_**。
+
+上标/下标需要使用 HTML 标签 `<sup>` / `<sub>`：
+
+| 文本 | 写法 | 效果 |
+| --- | --- | --- |
+| 上标 | `<sup>superscript</sup>` | <sup>superscript</sup> |
+| 下标 | `<sub>subscript</sub>` | <sub>subscript</sub> |
+
+## 链接（Linking to Pages）
+
+标准链接写法：`[跳转文字](https://example.com)`。
+
+站内链接建议使用以站点根为基准的绝对路径（root-relative），例如：`[跳转到文本页](/writing-content/text)`。
+
+相对路径（如 `../text`）也可用，但加载优化较差。
+
+## 引用（Blockquotes）
+
+### 单行引用
+
+在段首添加 `>`。
+
+> 示例：这是一段引用文字。
+
+```md
+> 示例：这是一段引用文字。
+```
+
+### 多行引用
+
+> 第一行引用。
+>
+> 第二行引用。
+
+```md
+> 第一行引用。
+>
+> 第二行引用。
+```
+
+### LaTeX
+
+Mintlify 通过 `<Latex/>` 组件支持 [LaTeX](https://www.latex-project.org)。
+
+<Latex>8 x (vk x H1 - H2) = (0,1)</Latex>
+
+```md
+<Latex>8 x (vk x H1 - H2) = (0,1)</Latex>
+```
