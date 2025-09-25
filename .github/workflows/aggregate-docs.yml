@@ -146,8 +146,13 @@ jobs:
             const subGroups = extractGroups(subNav).map(g => prependPrefix(g, prefix));
             if (Array.isArray(mainNav?.tabs)){
               const label = 'mcphub-docs';
+              const existingIndex = (mainNav.tabs || []).findIndex(t => t.tab === label);
               const newTab = { tab: label, groups: subGroups };
-              mainNav.tabs = [ ...(mainNav.tabs || []), newTab ];
+              if (existingIndex >= 0) {
+                mainNav.tabs[existingIndex] = newTab; // 覆盖已有的同名 Tab，避免重复追加
+              } else {
+                mainNav.tabs = [ ...(mainNav.tabs || []), newTab ];
+              }
               return mainNav;
             }
             const merged = { ...mainNav };
@@ -160,6 +165,11 @@ jobs:
           console.log('Merged and wrote', basePath, 'size', fs.readFileSync(basePath,'utf8').length);
           NODE
 
-          git add docs.json mcphub-docs
+          # 清理历史遗留的 submodule 索引（若存在），保留工作区文件
+          git rm --cached -r mcphub-docs || true
+          rm -f .gitmodules || true
+
+          git add -A mcphub-docs docs.json
+          git status -s
           git -c user.name="Mintie Bot" -c user.email="aws@mintlify.com" commit -m "chore: aggregate mcphub-docs" || echo "No changes to commit"
           git push origin docs
