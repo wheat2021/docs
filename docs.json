@@ -11,7 +11,7 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "mintlify",
+        "tab": "指南",
         "groups": [
           {
             "group": "快速开始",
@@ -63,17 +63,17 @@
         ]
       },
       {
-        "tab": "mcphub-docs",
+        "tab": "API 参考",
         "groups": [
           {
-            "group": "开始使用",
+            "group": "API 文档",
             "pages": [
               "mcphub-docs/zh/index",
               "mcphub-docs/zh/getting-started/quickstart"
             ]
           },
           {
-            "group": "安装配置",
+            "group": "端点示例",
             "pages": [
               "mcphub-docs/zh/installation/installation",
               "mcphub-docs/zh/configuration/mcp-settings",
