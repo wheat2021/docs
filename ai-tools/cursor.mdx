@@ -1,25 +1,25 @@
 ---
-title: "Cursor setup"
-description: "Configure Cursor for your documentation workflow"
+title: "Cursor 设置"
+description: "为你的文档工作流配置 Cursor"
 icon: "arrow-pointer"
 ---
 
-Use Cursor to help write and maintain your documentation. This guide shows how to configure Cursor for better results on technical writing tasks and using Mintlify components.
+使用 Cursor 协助撰写和维护文档。本指南展示如何配置 Cursor，以便在技术写作与使用 Mintlify 组件时获得更好的效果。
 
-## Prerequisites
+## 前提条件
 
-- Cursor editor installed
-- Access to your documentation repository
+- 已安装 Cursor 编辑器
+- 可访问你的文档仓库
 
-## Project rules
+## 项目规则
 
-Create project rules that all team members can use. In your documentation repository root:
+在文档仓库根目录创建项目规则，便于团队成员共享：
 
 ```bash
 mkdir -p .cursor
 ```
 
-Create `.cursor/rules.md`:
+创建 `.cursor/rules.md`：
 
 ````markdown
 # Mintlify technical writing rule
@@ -95,7 +95,7 @@ Positive confirmations, successful completions, or achievement indicators
 
 #### Single code block
 
-Example of a single code block:
+单个代码块示例：
 
 ```javascript config.js
 const apiConfig = {
@@ -109,7 +109,7 @@ const apiConfig = {
 
 #### Code group with multiple languages
 
-Example of a code group:
+代码组示例：
 
 <CodeGroup>
 ```javascript Node.js
@@ -132,7 +132,7 @@ curl -X GET '/api/endpoint' \
 
 #### Request/response examples
 
-Example of request/response documentation:
+请求/响应文档示例：
 
 <RequestExample>
 ```bash cURL
@@ -153,37 +153,37 @@ curl -X POST 'https://api.example.com/users' \
 ```
 </ResponseExample>
 
-### Structural components
+### 结构化组件
 
-#### Steps for procedures
+#### 步骤（步骤化操作）
 
-Example of step-by-step instructions:
+分步操作示例：
 
 <Steps>
 <Step title="Install dependencies">
-  Run `npm install` to install required packages.
+  运行 `npm install` 安装所需依赖。
   
   <Check>
-  Verify installation by running `npm list`.
+  通过运行 `npm list` 验证安装。
   </Check>
 </Step>
 
 <Step title="Configure environment">
-  Create a `.env` file with your API credentials.
+  创建包含 API 凭据的 `.env` 文件。
   
   ```bash
   API_KEY=your_api_key_here
   ```
   
   <Warning>
-  Never commit API keys to version control.
+  切勿将 API key 提交到版本控制。
   </Warning>
 </Step>
 </Steps>
 
-#### Tabs for alternative content
+#### Tabs（选项卡）
 
-Example of tabbed content:
+选项卡内容示例：
 
 <Tabs>
 <Tab title="macOS">
@@ -208,18 +208,18 @@ Example of tabbed content:
 </Tab>
 </Tabs>
 
-#### Accordions for collapsible content
+#### 折叠面板（Accordions）
 
-Example of accordion groups:
+折叠分组示例：
 
 <AccordionGroup>
-<Accordion title="Troubleshooting connection issues">
-  - **Firewall blocking**: Ensure ports 80 and 443 are open
-  - **Proxy configuration**: Set HTTP_PROXY environment variable
-  - **DNS resolution**: Try using 8.8.8.8 as DNS server
+<Accordion title="连接问题排查">
+  - **防火墙阻断**：确保 80 与 443 端口开放
+  - **代理配置**：设置 HTTP_PROXY 环境变量
+  - **DNS 解析**：尝试使用 8.8.8.8 作为 DNS 服务器
 </Accordion>
 
-<Accordion title="Advanced configuration">
+<Accordion title="高级配置">
   ```javascript
   const config = {
     performance: { cache: true, timeout: 30000 },
@@ -229,91 +229,91 @@ Example of accordion groups:
 </Accordion>
 </AccordionGroup>
 
-### Cards and columns for emphasizing information
+### 卡片与分栏（强调信息）
 
-Example of cards and card groups:
+卡片与卡片分组示例：
 
-<Card title="Getting started guide" icon="rocket" href="/quickstart">
-Complete walkthrough from installation to your first API call in under 10 minutes.
+<Card title="入门指南" icon="rocket" href="/quickstart">
+从安装到首次 API 调用的完整演练，不超过 10 分钟。
 </Card>
 
 <CardGroup cols={2}>
 <Card title="Authentication" icon="key" href="/auth">
-  Learn how to authenticate requests using API keys or JWT tokens.
+  了解如何使用 API key 或 JWT 对请求进行认证。
 </Card>
 
 <Card title="Rate limiting" icon="clock" href="/rate-limits">
-  Understand rate limits and best practices for high-volume usage.
+  了解限流策略与大流量使用的最佳实践。
 </Card>
 </CardGroup>
 
-### API documentation components
+### API 文档组件
 
-#### Parameter fields
+#### 参数字段
 
-Example of parameter documentation:
+参数文档示例：
 
 <ParamField path="user_id" type="string" required>
-Unique identifier for the user. Must be a valid UUID v4 format.
+用户的唯一标识。必须为有效的 UUID v4 格式。
 </ParamField>
 
 <ParamField body="email" type="string" required>
-User's email address. Must be valid and unique within the system.
+用户邮箱地址。必须有效且在系统内唯一。
 </ParamField>
 
 <ParamField query="limit" type="integer" default="10">
-Maximum number of results to return. Range: 1-100.
+返回结果的最大数量。范围：1-100。
 </ParamField>
 
 <ParamField header="Authorization" type="string" required>
-Bearer token for API authentication. Format: `Bearer YOUR_API_KEY`
+用于 API 认证的 Bearer token。格式：`Bearer YOUR_API_KEY`
 </ParamField>
 
-#### Response fields
+#### 响应字段
 
-Example of response field documentation:
+响应字段文档示例：
 
 <ResponseField name="user_id" type="string" required>
-Unique identifier assigned to the newly created user.
+分配给新建用户的唯一标识。
 </ResponseField>
 
 <ResponseField name="created_at" type="timestamp">
-ISO 8601 formatted timestamp of when the user was created.
+用户创建时间，ISO 8601 格式。
 </ResponseField>
 
 <ResponseField name="permissions" type="array">
-List of permission strings assigned to this user.
+分配给该用户的权限字符串列表。
 </ResponseField>
 
-#### Expandable nested fields
+#### 可展开的嵌套字段
 
-Example of nested field documentation:
+嵌套字段文档示例：
 
 <ResponseField name="user" type="object">
-Complete user object with all associated data.
+完整的用户对象及其所有相关数据。
 
 <Expandable title="User properties">
   <ResponseField name="profile" type="object">
-  User profile information including personal details.
+  用户档案信息，包括个人详情。
   
   <Expandable title="Profile details">
     <ResponseField name="first_name" type="string">
-    User's first name as entered during registration.
+    注册时填写的用户名（名）。
     </ResponseField>
     
     <ResponseField name="avatar_url" type="string | null">
-    URL to user's profile picture. Returns null if no avatar is set.
+    用户头像的 URL。如未设置头像则返回 null。
     </ResponseField>
   </Expandable>
   </ResponseField>
 </Expandable>
 </ResponseField>
 
-### Media and advanced components
+### 媒体与进阶组件
 
-#### Frames for images
+#### 图片框架（Frame）
 
-Wrap all images in frames:
+将图片包裹在 Frame 中：
 
 <Frame>
 <img src="/images/dashboard.png" alt="Main dashboard showing analytics overview" />
@@ -323,9 +323,9 @@ Wrap all images in frames:
 <img src="/images/analytics.png" alt="Analytics dashboard with charts" />
 </Frame>
 
-#### Videos
+#### 视频
 
-Use the HTML video element for self-hosted video content:
+自托管视频请使用 HTML video 元素：
 
 <video
   controls
@@ -333,7 +333,7 @@ Use the HTML video element for self-hosted video content:
   src="link-to-your-video.com"
 ></video>
 
-Embed YouTube videos using iframe elements:
+嵌入 YouTube 视频可使用 iframe：
 
 <iframe
   className="w-full aspect-video rounded-xl"
@@ -346,15 +346,15 @@ Embed YouTube videos using iframe elements:
 
 #### Tooltips
 
-Example of tooltip usage:
+提示用法示例：
 
 <Tooltip tip="Application Programming Interface - protocols for building software">
 API
 </Tooltip>
 
-#### Updates
+#### 更新（Updates）
 
-Use updates for changelogs:
+用于记录变更日志：
 
 <Update label="Version 2.1.0" description="Released March 15, 2024">
 ## New features
@@ -366,9 +366,9 @@ Use updates for changelogs:
 - Resolved authentication timeout problems
 </Update>
 
-## Required page structure
+## 必需的页面结构
 
-Every documentation page must begin with YAML frontmatter:
+每个文档页面都必须以 YAML frontmatter 开始：
 
 ```yaml
 ---
@@ -377,44 +377,44 @@ description: "Concise description explaining page purpose and value"
 ---
 ```
 
-## Content quality standards
+## 内容质量标准
 
-### Code examples requirements
+### 代码示例要求
 
-- Always include complete, runnable examples that users can copy and execute
-- Show proper error handling and edge case management
-- Use realistic data instead of placeholder values
-- Include expected outputs and results for verification
-- Test all code examples thoroughly before publishing
-- Specify language and include filename when relevant
-- Add explanatory comments for complex logic
-- Never include real API keys or secrets in code examples
+- 提供完整、可运行的示例，便于用户复制执行
+- 展示正确的错误处理与边界情况处理
+- 使用真实数据而非占位值
+- 提供预期输出与结果以便验证
+- 发布前充分测试所有代码示例
+- 指定语言并在需要时包含文件名
+- 对复杂逻辑添加解释性注释
+- 绝不在示例中包含真实 API key 或机密
 
-### API documentation requirements
+### API 文档要求
 
-- Document all parameters including optional ones with clear descriptions
-- Show both success and error response examples with realistic data
-- Include rate limiting information with specific limits
-- Provide authentication examples showing proper format
-- Explain all HTTP status codes and error handling
-- Cover complete request/response cycles
+- 记录所有参数（包括可选参数），给出清晰描述
+- 展示成功与错误响应示例，使用真实数据
+- 包含限流信息并给出具体限额
+- 提供认证示例并保证格式正确
+- 解释所有 HTTP 状态码与错误处理
+- 覆盖完整的请求/响应流程
 
-### Accessibility requirements
+### 无障碍（可访问性）要求
 
-- Include descriptive alt text for all images and diagrams
-- Use specific, actionable link text instead of "click here"
-- Ensure proper heading hierarchy starting with H2
-- Provide keyboard navigation considerations
-- Use sufficient color contrast in examples and visuals
-- Structure content for easy scanning with headers and lists
+- 为所有图片与图表提供描述性 alt 文本
+- 使用具体、可执行的链接文本（避免“点击这里”）
+- 确保从 H2 开始的正确标题层级
+- 提供键盘导航方面的考虑
+- 在示例与视觉中使用足够的颜色对比度
+- 用标题与列表组织内容，便于快速浏览
 
-## Component selection logic
+## 组件选择指引
 
-- Use **Steps** for procedures and sequential instructions
-- Use **Tabs** for platform-specific content or alternative approaches
-- Use **CodeGroup** when showing the same concept in multiple programming languages
-- Use **Accordions** for progressive disclosure of information
-- Use **RequestExample/ResponseExample** specifically for API endpoint documentation
-- Use **ParamField** for API parameters, **ResponseField** for API responses
-- Use **Expandable** for nested object properties or hierarchical information
+- 使用 **Steps** 处理流程与顺序指令
+- 使用 **Tabs** 展示平台差异或替代方案
+- 多语言示例使用 **CodeGroup**
+- 渐进展开的信息使用 **Accordions**
+- API 端点文档使用 **RequestExample/ResponseExample**
+- API 参数用 **ParamField**，API 响应用 **ResponseField**
+- 嵌套对象或层级信息用 **Expandable**
 ````
