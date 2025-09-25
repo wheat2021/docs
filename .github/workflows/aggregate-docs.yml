@@ -68,6 +68,13 @@ jobs:
           head -c 200 docs.json || true
           echo "\n"
 
+      - name: Normalize base docs.json on docs branch
+        run: |
+          node -e "const fs=require('fs'); const p='docs.json'; const t=fs.readFileSync(p,'utf8'); const o=JSON.parse(t); fs.writeFileSync(p, JSON.stringify(o, null, 2)); console.log('Normalized docs.json length:', fs.readFileSync(p,'utf8').length);"
+          git add docs.json
+          git -c user.name="Mintie Bot" -c user.email="aws@mintlify.com" commit -m "chore: normalize docs.json" || true
+          git push origin docs
+
       - name: Debug - show subrepo docs.json excerpt
         run: |
           rm -rf _subrepo || true
