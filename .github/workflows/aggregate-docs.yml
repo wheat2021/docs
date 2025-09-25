@@ -88,14 +88,58 @@ jobs:
             echo "Subrepo docs.json missing!" && exit 1
           fi
 
-      - name: Aggregate from subrepositories
-        uses: mintlify/mintlify-multirepo-action@v0.15
-        with:
-          token: ${{ secrets.PUSH_TOKEN }}
-          target-branch: docs
-          subdirectory: ./
-          repos: |
-            - owner: wheat2021
-              repo: mcphub-docs
-              ref: main
-              # subdirectory: ./
+      - name: Aggregate (custom node script)
+        shell: bash
+        env:
+          GH_PAT: ${{ secrets.PUSH_TOKEN }}
+        run: |
+          set -euo pipefail
+          git checkout docs
+          node <<'NODE'
+          const { execSync } = require('child_process');
+          const fs = require('fs');
+          const path = require('path');
+
+          function sh(cmd){ console.log('$', cmd); return execSync(cmd, {stdio:'inherit'}); }
+
+          // Read base docs.json
+          const basePath = 'docs.json';
+          const baseText = fs.readFileSync(basePath, 'utf8');
+          const base = JSON.parse(baseText);
+
+          // Clone subrepo shallow
+          const TMP = '_subrepo_merge';
+          if (fs.existsSync(TMP)) fs.rmSync(TMP, {recursive:true, force:true});
+          const url = 'https://github.com/wheat2021/mcphub-docs';
+          sh(`git clone --depth 1 --branch main ${url} ${TMP}`);
+          const subText = fs.readFileSync(path.join(TMP, 'docs.json'), 'utf8');
+          const sub = JSON.parse(subText);
+
+          function prependPrefix(group, prefix){
+            return {
+              ...group,
+              pages: group.pages?.map(e => typeof e === 'string' ? `${prefix}/${e}` : prependPrefix(e, prefix)) || []
+            };
+          }
+          function mergeDocsNavigation(mainNav, subNav, prefix){
+            const merged = { ...mainNav };
+            if (subNav.groups){
+              const prefixed = subNav.groups.map(g => prependPrefix(g, prefix));
+              merged.groups = [ ...(merged.groups || []), ...prefixed ];
+            }
+            if (subNav.pages){
+              const prefixedPages = subNav.pages.map(p => `${prefix}/${p}`);
+              merged.pages = [ ...(merged.pages || []), ...prefixedPages ];
+            }
+            return merged;
+          }
+
+          base.navigation = mergeDocsNavigation(base.navigation, sub.navigation, 'mcphub-docs');
+
+          fs.writeFileSync(basePath, JSON.stringify(base, null, 2));
+          console.log('Merged and wrote', basePath, 'size', fs.readFileSync(basePath,'utf8').length);
+          NODE
+
+          git add docs.json
+          git -c user.name="Mintie Bot" -c user.email="aws@mintlify.com" commit -m "chore: aggregate mcphub-docs" || echo "No changes to commit"
+          git push origin docs
