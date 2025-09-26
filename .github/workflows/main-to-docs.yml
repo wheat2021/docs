@@ -20,6 +20,10 @@ jobs:
         run: |
           set -euo pipefail
           
+          # 配置git用户
+          git config user.name "Docs Bot"
+          git config user.email "docs@bot.com"
+          
           # 确保docs分支存在
           if ! git ls-remote --exit-code --heads origin docs > /dev/null 2>&1; then
             echo "Creating docs branch from main"
@@ -34,7 +38,7 @@ jobs:
           git merge origin/main --no-ff -m "merge main to docs" || {
             echo "Merge conflict, resolving with main changes"
             git add -A
-            git -c user.name="Docs Bot" -c user.email="docs@bot.com" commit -m "merge main to docs (resolved conflicts)"
+            git commit -m "merge main to docs (resolved conflicts)"
           }
           
           git push origin docs
