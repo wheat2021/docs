@@ -61,8 +61,8 @@
     "global": {
       "anchors": [
         {
-          "anchor": "文档",
-          "href": "https://mintlify.com/docs",
+          "anchor": "官方文档",
+          "href": "https://www.mintlify.com/docs/zh",
           "icon": "book-open-cover"
         },
         {
