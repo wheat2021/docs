@@ -86,7 +86,9 @@ jobs:
 - 子仓内容进入主仓库 mcphub-docs/ 目录，页面路径统一使用 `mcphub-docs/...` 前缀，确保链接唯一。
 - 幂等：如果 Tab `mcphub-docs` 已存在，则覆盖其 groups，避免重复追加。
 - 去子模块：删除 `mcphub-docs/.git`，并在提交前执行 `git rm --cached -r mcphub-docs` 与删除 `.gitmodules`，彻底清理遗留 submodule 指针。
-- 权限：该方案仅需 `contents: write`，PAT 可不必使用（使用 GITHUB_TOKEN 即可推送当前仓库）。
+- 权限：
+  - 聚合与推送到“当前（聚合）仓库”的 docs 分支：使用工作流自带的 `GITHUB_TOKEN`，并在工作流 `permissions` 中授予 `contents: write` 即可。
+  - 跨仓触发（子仓→聚合仓）使用 `repository_dispatch`：若使用精细化 PAT，容易出现 403（`Resource not accessible by personal access token`）。建议改用“经典 PAT（classic PAT）”，至少包含 `repo` 与 `workflow` scopes；或确保精细化 PAT 的 Resource owner、仓库范围与仓库权限（至少 `Contents: write`、`Actions: write`）完全覆盖目标仓库。
 
 ## 我们的实施问题与排查记录
 1) Unexpected end of JSON input
@@ -123,3 +125,57 @@ jobs:
   - docs 分支出现 `mcphub-docs/` 目录及内容
   - docs 分支的 `docs.json` 新增/更新 `tab: mcphub-docs`（或你的别名），其 pages 指向 `mcphub-docs/...`
 - Mintlify 仪表盘把站点指向 `docs` 分支即可。
+
+## 跨仓触发与通知工作流（子仓→聚合仓）
+当子仓更新时，可通过 `repository_dispatch` 通知聚合仓执行聚合。示例（子仓工作流）：
+
+```yaml
+name: Notify aggregator to update
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - '**.md'
+      - '**.mdx'
+      - 'docs.json'
+      - 'images/**'
+      - 'logo/**'
+      - 'snippets/**'
+  workflow_dispatch:
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger repository_dispatch in main docs repo
+        env:
+          GH_PAT: ${{ secrets.AGGREGATOR_PAT }}
+        run: |
+          set -euo pipefail
+          test -n "${GH_PAT:-}" || { echo "AGGREGATOR_PAT not set" >&2; exit 1; }
+          curl -s -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: token ${GH_PAT}" \
+            https://api.github.com/repos/wheat2021/docs/dispatches \
+            -d '{"event_type":"subdocs-updated","client_payload":{"source":"mcphub-docs"}}'
+```
+
+权限与常见问题：
+- 403 `Resource not accessible by personal access token`
+  - 修复：将通知用的令牌切换为“经典 PAT（classic PAT）”，并赋予 `repo` + `workflow` scopes；或正确配置精细化 PAT（Resource owner 与目标仓一致，仓库范围包含目标仓，权限至少 `Contents: write`、`Actions: write`）。
+  - 说明：即便账号对仓库有 admin 权限，精细化 PAT 仍可能因范围/Owner/权限不匹配而 403。
+
+## 一致性检查（与当前工作流）
+- 子仓工作流（本仓）：`.github/workflows/notify-aggregate.yml`
+  - 已在 push(main) + 指定路径变更时，通过 `repository_dispatch` 通知聚合仓 `wheat2021/docs`，`event_type=subdocs-updated`。使用 secret `AGGREGATOR_PAT`（推荐 classic PAT：`repo` + `workflow`）。
+- 聚合仓工作流：`/github/workflows/aggregate-docs.yml`（仓库：`wheat2021/docs`）
+  - 触发条件：`push` 到 `main` + `schedule`（每日 0 点）。
+  - 权限：`permissions: contents: write`，聚合和推送使用 `GITHUB_TOKEN` 即可。n  - 执行：检出、保证 `docs` 分支存在与 `docs.json` 可解析，克隆并合并 `wheat2021/mcphub-docs` 内容到 `mcphub-docs/`，幂等写回导航，清理 submodule 残留并推送。
+  - 现状提示：该工作流当前未监听 `repository_dispatch`。如需“子仓更新即刻触发聚合”，可在聚合仓工作流中追加：
+    ```yaml
+    on:
+      repository_dispatch:
+        types: [subdocs-updated]
+    ```
+  - 另：文件中存在 `env: GH_PAT: ${{ secrets.PUSH_TOKEN }}`，但默认流程使用 `GITHUB_TOKEN` 推送，`PUSH_TOKEN` 可作为备用，不是必需。
