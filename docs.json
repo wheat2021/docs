@@ -151,7 +151,8 @@
             "group": "部署与托管",
             "pages": [
               "mcphub-docs/Mintlify/hosting-deploy",
-              "mcphub-docs/Mintlify/plans-and-repo-strategy"
+              "mcphub-docs/Mintlify/plans-and-repo-strategy",
+              "mcphub-docs/Mintlify/multirepo-custom-aggregation"
             ]
           },
           {

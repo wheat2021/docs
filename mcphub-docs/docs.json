@@ -104,7 +104,8 @@
             "group": "部署与托管",
             "pages": [
               "Mintlify/hosting-deploy",
-              "Mintlify/plans-and-repo-strategy"
+              "Mintlify/plans-and-repo-strategy",
+              "Mintlify/multirepo-custom-aggregation"
             ]
           },
           {

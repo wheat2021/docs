@@ -1,0 +1,125 @@
+---
+title: '多仓库聚合：自定义脚本方案'
+description: '当官方 multirepo action 不稳定时，使用自定义 Node 脚本在工作流内完成聚合，并避免子模块与重复 Tab 等问题'
+icon: 'code-merge'
+---
+
+当官方 `mintlify/mintlify-multirepo-action` 在特定 Runner/仓库状态下出现解析或检出问题时，可以用自定义 Node 脚本在 GitHub Actions 中完成多仓库聚合。该方案具备：
+- 幂等：避免重复追加 Tab，连续运行不会无限膨胀导航
+- 去子模块化：把子仓内容当普通文件提交，不产生 submodule 指针
+- 可扩展：可按需改为合并到现有 Tab/分组，或支持多个子仓
+
+## 适用场景
+- 希望统一门户（一个主仓库/站点）整合多个产品文档，各产品自有独立仓库
+- 官方 multirepo action 在你环境中出现不稳定（例如 Unexpected end of JSON input）
+
+## 工作流核心片段（最小可用）
+下方代码在主仓库的 `docs` 分支执行聚合：
+- 克隆子仓 `wheat2021/mcphub-docs@main` 到目录 `mcphub-docs`
+- 删除 `mcphub-docs/.git`，确保以普通文件提交
+- 将子仓 docs.json 的导航抽取为 groups，并以 `mcphub-docs/` 为前缀合入主仓导航
+- 若主仓导航是 `tabs` 结构，则幂等地新增/覆盖一个名为 `mcphub-docs` 的 Tab
+
+```yaml path=null start=null
+name: Aggregate Mintlify Docs
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  aggregate-docs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Aggregate (custom node script)
+        shell: bash
+        run: |
+          set -euo pipefail
+          git checkout docs
+          node <<'NODE'
+          const { execSync } = require('child_process');
+          const fs = require('fs');
+          const path = require('path');
+          function sh(cmd){ console.log('$', cmd); return execSync(cmd, {stdio:'inherit'}); }
+          // 基仓 docs.json
+          const basePath = 'docs.json';
+          const base = JSON.parse(fs.readFileSync(basePath, 'utf8'));
+          // 克隆子仓到仓库内目录
+          const TMP = '_subrepo_merge';
+          const DEST = 'mcphub-docs';
+          if (fs.existsSync(TMP)) fs.rmSync(TMP, {recursive:true, force:true});
+          if (fs.existsSync(DEST)) fs.rmSync(DEST, {recursive:true, force:true});
+          sh('git clone --depth 1 --branch main https://github.com/wheat2021/mcphub-docs ' + TMP);
+          fs.renameSync(TMP, DEST);
+          const gitDir = path.join(DEST, '.git');
+          if (fs.existsSync(gitDir)) fs.rmSync(gitDir, {recursive:true, force:true});
+          const sub = JSON.parse(fs.readFileSync(path.join(DEST, 'docs.json'), 'utf8'));
+          // 导航合并
+          const prependPrefix = (g,p)=>({ ...g, pages:(g.pages||[]).map(e=> typeof e==='string'? `${p}/${e}`: prependPrefix(e,p))});
+          const extractGroups = (nav)=>{ const gs=[]; if(!nav) return gs; if(nav.groups) gs.push(...nav.groups); if(nav.pages?.length) gs.push({group:'Pages',pages:nav.pages}); if(nav.tabs){ for(const t of nav.tabs){ if(t.groups?.length) gs.push(...t.groups); if(t.pages?.length) gs.push({group:t.tab||'Pages',pages:t.pages}); } } return gs; };
+          const subGroups = extractGroups(sub.navigation).map(g=> prependPrefix(g, DEST));
+          if (Array.isArray(base.navigation?.tabs)){
+            const label = 'mcphub-docs';
+            const i = (base.navigation.tabs||[]).findIndex(t=>t.tab===label);
+            const newTab = { tab: label, groups: subGroups };
+            if (i>=0) base.navigation.tabs[i]=newTab; else base.navigation.tabs = [...(base.navigation.tabs||[]), newTab];
+          } else {
+            base.navigation.groups = [ ...(base.navigation.groups||[]), ...subGroups ];
+          }
+          fs.writeFileSync(basePath, JSON.stringify(base, null, 2));
+          NODE
+          # 清理历史 submodule 指针并提交
+          git rm --cached -r mcphub-docs || true
+          rm -f .gitmodules || true
+          git add -A mcphub-docs docs.json
+          git -c user.name="Mintie Bot" -c user.email="aws@mintlify.com" commit -m "chore: aggregate mcphub-docs" || true
+          git push origin docs
+```
+
+要点说明
+- 子仓内容进入主仓库 mcphub-docs/ 目录，页面路径统一使用 `mcphub-docs/...` 前缀，确保链接唯一。
+- 幂等：如果 Tab `mcphub-docs` 已存在，则覆盖其 groups，避免重复追加。
+- 去子模块：删除 `mcphub-docs/.git`，并在提交前执行 `git rm --cached -r mcphub-docs` 与删除 `.gitmodules`，彻底清理遗留 submodule 指针。
+- 权限：该方案仅需 `contents: write`，PAT 可不必使用（使用 GITHUB_TOKEN 即可推送当前仓库）。
+
+## 我们的实施问题与排查记录
+1) Unexpected end of JSON input
+   - 现象：官方 action 在切换到 docs 分支后读取 `docs.json` 时抛错。
+   - 根因/猜测：在特定 Runner/检出顺序下，工作树尚未稳定，导致读取空字符串。
+   - 规避：
+     - 预置/修复目标分支：首次运行前确保 docs 分支存在且包含完整 `docs.json`；并在 action 前用 Node 解析一次主仓 `docs.json`。
+     - 改用自定义脚本，避免对内部 Git/HEAD 状态的依赖。
+
+2) 重复 Tab
+   - 现象：多次聚合后出现多个 `"tab": "mcphub-docs"`。
+   - 解决：合并逻辑改为幂等（若已存在同名 Tab 则覆盖）。
+
+3) 目录为空/子模块残留
+   - 现象：docs 分支出现空目录或日志提示 `No url found for submodule path`。
+   - 原因：早期一次运行把 `mcphub-docs` 作为 submodule 记录到了索引。
+   - 解决：删除 `mcphub-docs/.git`，并执行 `git rm --cached -r mcphub-docs` 与删除 `.gitmodules` 后再 `git add -A` 提交。
+
+4) YAML 语法问题
+   - 现象：步骤名中含冒号 `:` 触发 YAML 解析错误。
+   - 解决：调整步骤名（例如用 `-` 代替 `:`），或为字符串加引号。
+
+5) PAT 权限与最小授权
+   - 若需要跨私有仓读取子仓：细粒度 PAT（Fine-grained）选择目标仓库，权限至少 `Contents: Read`（子仓）与 `Contents: Write`（基仓）。
+   - 如果只推送到当前仓库，可优先使用 `GITHUB_TOKEN`。
+
+## 变体与扩展
+- 多子仓：把目标仓库数组化，循环克隆并累计合并。
+- 合并到现有 Tab/分组：将 `newTab` 替换为把 `subGroups` 追加到指定分组。
+- 前缀别名：将 `DEST` 改为更直观的别名（如 `product-a`）。
+
+## 验证
+- 运行成功后：
+  - docs 分支出现 `mcphub-docs/` 目录及内容
+  - docs 分支的 `docs.json` 新增/更新 `tab: mcphub-docs`（或你的别名），其 pages 指向 `mcphub-docs/...`
+- Mintlify 仪表盘把站点指向 `docs` 分支即可。
