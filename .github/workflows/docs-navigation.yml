@@ -1,0 +1,58 @@
+name: Generate Navigation on Docs Branch
+
+on:
+  push:
+    branches: ["docs"]
+  repository_dispatch:
+    types: [subdocs-updated]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: docs-navigation
+  cancel-in-progress: true
+
+jobs:
+  generate-navigation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout docs branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs
+          fetch-depth: 1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Generate navigation
+        run: |
+          if [ -f scripts/generate-navigation.js ]; then
+            node scripts/generate-navigation.js
+          else
+            echo "scripts/generate-navigation.js not found, skipping navigation generation"
+          fi
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "Docs Bot"
+          git config user.email "docs@bot.com"
+          
+          if git diff --quiet docs.json; then
+            echo "No navigation changes to commit"
+          else
+            git add docs.json
+            git commit -m "chore: update navigation"
+            git push origin docs
+          fi

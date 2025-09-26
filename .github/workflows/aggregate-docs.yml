@@ -1,10 +1,6 @@
 name: Aggregate Mintlify Docs
 
 on:
-  push:
-    branches: ["main"]
-  schedule:
-    - cron: '0 0 * * *'
   repository_dispatch:
     types: [subdocs-updated]
   workflow_dispatch:
@@ -176,3 +172,8 @@ jobs:
           git status -s
           git -c user.name="Mintie Bot" -c user.email="aws@mintlify.com" commit -m "chore: aggregate mcphub-docs" || echo "No changes to commit"
           git push origin docs
+
+      - name: Trigger navigation generation
+        if: success()
+        run: |
+          echo "Aggregation completed, navigation will be updated by docs-navigation workflow"

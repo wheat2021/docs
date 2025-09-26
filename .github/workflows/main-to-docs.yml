@@ -1,0 +1,63 @@
+name: Main to Docs Branch Sync
+
+on:
+  push:
+    branches: ["main"]
+
+permissions:
+  contents: write
+
+jobs:
+  sync-to-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Cherry-pick main commits to docs branch
+        run: |
+          set -euo pipefail
+          
+          # 确保docs分支存在
+          if ! git ls-remote --exit-code --heads origin docs > /dev/null 2>&1; then
+            echo "Creating docs branch from main"
+            git checkout -b docs
+            git push origin docs
+            exit 0
+          fi
+          
+          # 切换到docs分支
+          git fetch origin docs:docs
+          git checkout docs
+          
+          # 获取docs分支最后一次来自main的commit
+          LAST_MAIN_COMMIT=$(git log --oneline --grep="cherry-pick from main" -n 1 --format="%H" || echo "")
+          
+          if [ -z "$LAST_MAIN_COMMIT" ]; then
+            # 如果没有找到标记，使用docs分支的第一个commit作为起点
+            LAST_MAIN_COMMIT=$(git rev-list --max-parents=0 HEAD)
+          fi
+          
+          # 获取main分支上新的commits
+          git fetch origin main:main
+          NEW_COMMITS=$(git rev-list --reverse ${LAST_MAIN_COMMIT}..main || echo "")
+          
+          if [ -z "$NEW_COMMITS" ]; then
+            echo "No new commits to cherry-pick"
+            exit 0
+          fi
+          
+          # Cherry-pick新的commits
+          echo "Cherry-picking commits: $NEW_COMMITS"
+          for commit in $NEW_COMMITS; do
+            git cherry-pick $commit -m 1 --strategy=recursive -X theirs || {
+              echo "Cherry-pick failed for $commit, resolving conflicts"
+              git add -A
+              git -c user.name="Docs Bot" -c user.email="docs@bot.com" commit -m "cherry-pick from main: $(git log --oneline -n 1 $commit)"
+            }
+          done
+          
+          # 推送到docs分支
+          git push origin docs
