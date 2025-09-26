@@ -4,11 +4,11 @@
   "description": "Mintlify 启动模板 - 文档网站",
   "main": "index.js",
   "scripts": {
-    "dev": "mint dev",
-    "preview": "mint dev",
+    "dev": "mint dev --port 3009",
     "build": "mint build",
     "check": "mint openapi-check",
-    "update": "mint update"
+    "update": "mint update",
+    "index": "node scripts/generate-navigation.js"
   },
   "keywords": [
     "mintlify",
@@ -19,7 +19,8 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "mint": "^4.0.0"
+    "mint": "^4.0.0",
+    "js-yaml": "^4.1.0"
   },
   "engines": {
     "node": ">=16.0.0"

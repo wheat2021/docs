@@ -11,53 +11,48 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "mintlify",
+        "tab": "Mintlify 文档",
         "groups": [
           {
             "group": "快速开始",
             "pages": [
-              "mintlify/index",
-              "mintlify/quickstart",
-              "mintlify/development"
-            ]
-          },
-          {
-            "group": "自定义",
-            "pages": [
-              "mintlify/essentials/settings",
-              "mintlify/essentials/navigation"
-            ]
-          },
-          {
-            "group": "编写内容",
-            "pages": [
-              "mintlify/essentials/markdown",
-              "mintlify/essentials/code",
-              "mintlify/essentials/images",
-              "mintlify/essentials/reusable-snippets"
+              "docs/mintlify/development",
+              "docs/mintlify/index",
+              "docs/mintlify/quickstart"
             ]
           },
           {
             "group": "AI 工具",
             "pages": [
-              "mintlify/ai-tools/cursor",
-              "mintlify/ai-tools/claude-code",
-              "mintlify/ai-tools/windsurf"
+              "docs/mintlify/ai-tools/claude-code",
+              "docs/mintlify/ai-tools/cursor",
+              "docs/mintlify/ai-tools/windsurf"
             ]
           },
           {
             "group": "API 文档",
             "pages": [
-              "mintlify/api-reference/introduction"
+              "docs/mintlify/api-reference/introduction"
             ]
           },
           {
             "group": "端点示例",
             "pages": [
-              "mintlify/api-reference/endpoint/get",
-              "mintlify/api-reference/endpoint/create",
-              "mintlify/api-reference/endpoint/delete",
-              "mintlify/api-reference/endpoint/webhook"
+              "docs/mintlify/api-reference/endpoint/create",
+              "docs/mintlify/api-reference/endpoint/delete",
+              "docs/mintlify/api-reference/endpoint/get",
+              "docs/mintlify/api-reference/endpoint/webhook"
+            ]
+          },
+          {
+            "group": "自定义",
+            "pages": [
+              "docs/mintlify/essentials/code",
+              "docs/mintlify/essentials/images",
+              "docs/mintlify/essentials/markdown",
+              "docs/mintlify/essentials/navigation",
+              "docs/mintlify/essentials/reusable-snippets",
+              "docs/mintlify/essentials/settings"
             ]
           }
         ]
