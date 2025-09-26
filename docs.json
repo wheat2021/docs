@@ -16,48 +16,48 @@
           {
             "group": "快速开始",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
+              "mintlify/index",
+              "mintlify/quickstart",
+              "mintlify/development"
             ]
           },
           {
             "group": "自定义",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "mintlify/essentials/settings",
+              "mintlify/essentials/navigation"
             ]
           },
           {
             "group": "编写内容",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
+              "mintlify/essentials/markdown",
+              "mintlify/essentials/code",
+              "mintlify/essentials/images",
+              "mintlify/essentials/reusable-snippets"
             ]
           },
           {
             "group": "AI 工具",
             "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "mintlify/ai-tools/cursor",
+              "mintlify/ai-tools/claude-code",
+              "mintlify/ai-tools/windsurf"
             ]
           },
           {
             "group": "API 文档",
             "pages": [
-              "api-reference/introduction"
+              "mintlify/api-reference/introduction"
             ]
           },
           {
             "group": "端点示例",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "mintlify/api-reference/endpoint/get",
+              "mintlify/api-reference/endpoint/create",
+              "mintlify/api-reference/endpoint/delete",
+              "mintlify/api-reference/endpoint/webhook"
             ]
           }
         ]
@@ -97,15 +97,15 @@
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   },
   "footer": {
     "socials": {
