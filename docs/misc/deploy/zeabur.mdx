@@ -1,95 +1,125 @@
-## 🧭 一、Zeabur 是什么？
+## Zeabur 是什么？
 
-**Zeabur** 是一个新一代的云端部署平台，主打 **“一键部署、自动扩容、多语言支持”**，主要面向开发者、初创团队和独立开发者。
-它的定位类似 **Vercel + Docker + 微服务编排平台** 的结合体。
+Zeabur 是一个新一代的云端部署平台，主打“一键部署、自动扩容、多语言支持”，主要面向开发者、初创团队和独立开发者。
+它的定位类似 Vercel、Docker 与微服务编排平台的结合体。
 
-官网：🌐 [https://zeabur.com](https://zeabur.com)
+官网：[https://zeabur.com](https://zeabur.com)
 
-核心理念是：
+核心理念：
 
-> “让部署变得像写代码一样简单。”
+> 让部署变得像写代码一样简单。
 
----
+## 主要功能特性
 
-## 🚀 二、主要功能特性
+<Columns cols={3}>
+  <Card title="多语言与框架检测">
+    支持 Node.js、Python、Go、Rust、Deno、PHP、.NET、Java 等；
+    可自动识别 Next.js、FastAPI、Flask、NestJS、Remix、Astro、SvelteKit、Nuxt 等框架。
+  </Card>
+  <Card title="Docker 支持">
+    支持通过自定义 Dockerfile 部署；当前不直接接收完整的 docker-compose.yml。
+  </Card>
+  <Card title="服务与运行形态">
+    以服务为单位进行编排，覆盖 Web、Worker、Database、定时任务等类型。
+  </Card>
 
-| 功能                      | 说明                                                                   |
-| ----------------------- | -------------------------------------------------------------------- |
-| 🌍 **多语言支持**            | 自动识别并支持 Node.js、Python、Go、Rust、Deno、PHP、.NET、Java 等语言项目。             |
-| 🐳 **Docker 支持**        | 可以直接部署自定义 Dockerfile，支持 Docker Compose 模式的部分功能（见下文）。                 |
-| 🧩 **Service-Based 架构** | 每个应用由多个「服务（Service）」组成，支持 Web、Worker、Database、Cron 等类型。              |
-| ☁️ **一键部署**             | 直接从 GitHub / GitLab / Docker 镜像导入，一键部署。                              |
-| 🪄 **环境变量与密钥管理**        | 提供安全的 Secret 管理，支持在部署中自动注入环境变量。                                      |
-| 📦 **数据库即服务**           | 提供 PostgreSQL、MongoDB、Redis、MySQL、PlanetScale、Neon、Upstash 等托管数据库集成。 |
-| ⚙️ **自动扩容与监控**          | 根据流量自动扩容或缩容，无需手动管理实例。                                                |
-| 🔄 **持续部署（CI/CD）**      | 每次推送代码到 main 分支都会自动触发部署。                                             |
-| 🧠 **智能推理与依赖分析**        | 自动识别应用框架（Next.js、FastAPI、Flask、NestJS、Remix、Astro、SvelteKit、Nuxt 等）。 |
-| 🌐 **域名与 HTTPS 管理**     | 支持自定义域名，自动签发 SSL 证书。                                                 |
+  <Card title="部署与 CI/CD">
+    可从 GitHub、GitLab 或容器镜像导入，一键部署；推送到主分支将自动触发部署。
+  </Card>
+  <Card title="扩缩容与可观测性">
+    按流量与负载自动扩缩容，无需手动管理实例；提供基础监控能力。
+  </Card>
+  <Card title="域名与安全">
+    支持自定义域名并自动签发 SSL 证书。
+  </Card>
+  <Card title="密钥与环境管理">
+    提供 Secret 管理，环境变量可在部署时安全注入。
+  </Card>
+  <Card title="数据库与生态集成">
+    内置 PostgreSQL、MongoDB、Redis、MySQL 等托管数据库集成，并兼容 PlanetScale、Neon、Upstash 等。
+  </Card>
+</Columns>
 
----
+## 是否支持 Docker Compose？
 
-## 🧱 三、是否支持 Docker Compose？
+部分支持。
 
-**部分支持** ✅
+目前 Zeabur 支持单个服务使用 Dockerfile 部署，但尚不支持直接上传完整的 docker-compose.yml 来编排多个容器。
 
-目前 Zeabur 支持 **单个服务使用 Dockerfile 部署**，但尚不支持直接上传完整的 `docker-compose.yml` 文件来编排多个容器。
+你可以通过 Zeabur Dashboard 创建多个服务（Service）来模拟 Compose 中的多个容器，然后：
 
-不过你可以通过 **Zeabur Dashboard** 创建多个服务（Service）来模拟 Compose 中的多个容器，然后：
+- 通过环境变量或内部网络让它们互相通信；
+- 每个服务可以独立配置镜像、启动命令、端口等。
 
-* 通过 **Environment Variables** 或 **Internal Networking** 让它们互相通信；
-* 每个服务可以独立配置镜像、启动命令、端口等。
-
-> 🔧 举例：
+> 示例：
 >
-> * 一个 `web` 服务使用 `Dockerfile` 启动你的前端；
-> * 一个 `db` 服务使用 Zeabur 提供的 PostgreSQL；
-> * 一个 `worker` 服务跑后台任务。
+> - 一个 web 服务使用 Dockerfile 启动前端；
+> - 一个 db 服务使用 Zeabur 提供的 PostgreSQL；
+> - 一个 worker 服务运行后台任务。
 
-未来官方计划提供类似 `docker-compose` 的一键多服务部署功能（Roadmap 中已提到）。
+未来计划提供类似 docker-compose 的一键多服务部署能力。
 
----
-
-## 💰 四、价格模式（截至 2025）
+## 价格模式（截至 2025）
 
 | 项目         | 免费额度                         | 付费计划            |
-| ---------- | ---------------------------- | --------------- |
-| 部署服务       | 免费 1 个项目                     | 约 $5 起/月（按服务计费） |
-| 内存/CPU     | 免费额度有限（约 512MB / 0.25vCPU）   | 可按需升级           |
-| 数据库        | 免费 PostgreSQL / MongoDB 基础套餐 | 可付费升级           |
-| 域名 / HTTPS | 免费自动签发                       | 自定义域名需付费方案      |
+| ------------ | -------------------------------- | ------------------- |
+| 部署服务     | 免费 1 个项目                    | 约 $5 起/月（按服务计费） |
+| 内存/CPU     | 免费额度有限（约 512MB / 0.25vCPU） | 可按需升级          |
+| 数据库       | 免费 PostgreSQL / MongoDB 基础套餐 | 可付费升级          |
+| 域名/HTTPS   | 免费自动签发                      | 自定义域名需付费方案 |
 
-> 📈 Zeabur 支持基于流量、CPU 使用率的自动扩缩容，费用按使用量动态变化。
+说明：平台支持基于流量与 CPU 使用率的自动扩缩容，费用按使用量动态变化。
 
----
+## Zeabur 与其他平台对比
 
-## 🧩 五、Zeabur vs 其他平台对比
+| 平台         | 特点                          | 是否支持 Docker             | 自动扩容 | 免费额度 | 定位              |
+| ------------ | ----------------------------- | --------------------------- | -------- | -------- | ----------------- |
+| Zeabur       | 简单直观、现代 UI、支持多语言和服务组合 | 是（Dockerfile）             | 是       | 有限     | 个人开发者、初创团队 |
+| Vercel       | 前端框架友好（Next.js 优先）       | 部分（不支持自定义 Docker）   | 是       | 较多     | 前端/全栈          |
+| Render       | 支持多语言和后端任务               | 是                         | 是       | 中等     | Web + Worker 应用 |
+| Koyeb        | 云原生、速度快、API 完备          | 是（支持 Compose）           | 是       | 有       | 生产级服务          |
+| Railway      | 界面极简，支持数据库               | 部分（仅模板）               | 是       | 有限     | 学生/开发者        |
+| Fly.io       | 边缘部署，低延迟                  | 是（强）                    | 是       | 有       | 分布式应用          |
 
-| 平台          | 特点                    | 是否支持 Docker          | 自动扩容 | 免费额度 | 定位              |
-| ----------- | --------------------- | -------------------- | ---- | ---- | --------------- |
-| **Zeabur**  | 简单直观、现代 UI、支持多语言和服务组合 | ✅（Dockerfile）        | ✅    | 有限   | 个人开发者、初创团队      |
-| **Vercel**  | 前端框架友好（Next.js 优先）    | ⚠️ 部分（不支持自定义 Docker） | ✅    | 较多   | 前端/全栈           |
-| **Render**  | 支持多语言和后端任务            | ✅                    | ✅    | 中等   | Web + Worker 应用 |
-| **Koyeb**   | 云原生、速度快、API 完备        | ✅（支持 Compose）        | ✅    | 有    | 生产级服务           |
-| **Railway** | 界面极简，支持数据库            | ⚠️（仅模板）              | ✅    | 有限   | 学生 / 开发者        |
-| **Fly.io**  | 边缘部署，低延迟              | ✅（强）                 | ✅    | 有    | 分布式应用           |
+## 适用场景
 
----
+- 独立开发者快速上线个人项目（网站、API、Bot）。
+- 希望以 Dockerfile 部署但不想维护服务器。
+- 小团队快速搭建演示或微服务系统。
+- 需要同时支持多语言、数据库与后台任务的云环境。
+- 期望比 Vercel 更灵活、又比传统 IaaS 更简单的方案。
 
-## 🧠 六、适合使用 Zeabur 的场景
+## 入门方式
 
-✅ 独立开发者想快速上线个人项目（网站、API、Bot）。
-✅ 想部署 Dockerfile 项目但不想维护服务器。
-✅ 小团队需要快速搭建 Demo、微服务系统。
-✅ 想要支持多语言、数据库、后台任务的云环境。
-✅ 想要比 Vercel 更灵活、但比 AWS 更简单的解决方案。
+<Steps>
+  <Step title="注册账号">
+    访问 https://zeabur.com 并完成注册。
+  </Step>
+  <Step title="选择来源">
+    连接 GitHub 仓库或上传 Dockerfile。
+  </Step>
+  <Step title="自动识别并部署">
+    平台会自动识别框架并启动构建与部署。
+  </Step>
+  <Step title="配置资源（可选）">
+    可按需添加数据库服务并配置环境变量。
+  </Step>
+  <Step title="绑定域名并上线">
+    使用系统生成域名或绑定自定义域名，完成上线。
+  </Step>
+</Steps>
 
----
+## 常见部署来源
 
-## 🪜 七、入门方式
-
-1. 注册账号：[https://zeabur.com](https://zeabur.com)
-2. 连接 GitHub 仓库或上传 Dockerfile
-3. Zeabur 会自动识别框架并部署
-4. （可选）添加数据库服务、配置环境变量
-5. 自动生成域名并上线
+<Tabs>
+  <Tab title="Git 仓库">
+    将项目推送到 GitHub 或 GitLab，授权后选取仓库并一键部署。后续提交会自动触发部署。
+  </Tab>
+  <Tab title="Dockerfile">
+    在仓库根目录提供 Dockerfile，导入项目后选择以 Docker 方式构建与运行。
+  </Tab>
+  <Tab title="容器镜像">
+    若已有容器镜像，提供镜像地址与拉取权限即可直接运行。
+  </Tab>
+</Tabs>
 
