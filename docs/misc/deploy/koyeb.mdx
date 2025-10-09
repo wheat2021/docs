@@ -1,0 +1,150 @@
+---
+title: Koyeb 部署指南
+description: 在 Koyeb 上部署容器化 Web 应用与 API，涵盖 Git 自动部署、Docker 镜像、环境变量、网络与常见问题。
+---
+
+<Columns cols={3}>
+  <Card title="是什么" icon="text">
+    Koyeb 是一个基于容器的全球无服务器平台，让你用最少配置即可部署、扩展和管理应用。
+  </Card>
+  <Card title="为什么选它" icon="text">
+    全球分发、自动扩缩容、HTTPS 默认开启、Git 集成良好，支持任意语言（基于 Docker）。
+  </Card>
+  <Card title="如何开始" icon="link" href="#start">
+    连接 Git 仓库或提供 Docker 镜像，几分钟内即可上线。
+  </Card>
+</Columns>
+
+<Info>
+Koyeb 的定位类似 Vercel + Fly.io + Heroku 的结合，但以容器为核心（非特定运行时）。
+</Info>
+
+## 🧩 核心特点
+
+<Columns cols={2}>
+  <Card title="Serverless 部署" icon="text">
+    无需自管服务器、负载均衡或伸缩策略，连接仓库即可自动部署。
+  </Card>
+  <Card title="容器原生" icon="text">
+    原生支持 Docker 镜像，或从 Git 自动构建。
+  </Card>
+  <Card title="全球分发" icon="text">
+    多区域部署 + 智能流量路由，自动靠近用户就近访问。
+  </Card>
+  <Card title="自动扩缩容" icon="text">
+    根据请求量从 0 到多实例的弹性伸缩。
+  </Card>
+  <Card title="内置安全" icon="text">
+    HTTPS、网络防护与 Secrets 管理开箱即用。
+  </Card>
+  <Card title="生态与自动化" icon="text">
+    GitHub/GitLab CI 集成、CLI 与 API 支持。
+  </Card>
+</Columns>
+
+## <span id="start">⚙️ 部署快速开始</span>
+
+<Steps>
+  <Step title="选择部署方式">
+    你可以选择以下任意路径：
+    <Columns cols={2}>
+      <Card title="从 Git 自动部署" icon="text">
+        在控制台选择 Git 仓库，平台会自动检测语言、构建与运行命令。
+      </Card>
+      <Card title="使用 Docker 镜像" icon="text">
+        直接指定镜像（如 GitHub Container Registry、Docker Hub 等）进行部署。
+      </Card>
+    </Columns>
+  </Step>
+
+  <Step title="创建应用与服务">
+
+```bash Koyeb CLI
+# 使用镜像创建应用（示例）
+koyeb app create my-app --image ghcr.io/username/image:latest
+```
+
+  </Step>
+
+  <Step title="配置环境变量与密钥">
+    在控制台或 CLI 中设置环境变量（如 DATABASE_URL、API_KEYS）。
+    <Warning>
+      切勿在命令中直接包含明文密钥。请将敏感信息存入环境变量或 Koyeb Secrets，并在命令中通过占位符引用（例如 {{DATABASE_URL}}）。
+    </Warning>
+  </Step>
+
+  <Step title="网络与域名">
+    默认提供 HTTPS，支持绑定自定义域名与自动证书。
+  </Step>
+
+  <Step title="观测与回滚">
+    借助构建日志与指标快速定位问题；如需，切换到上一版本以回滚。
+  </Step>
+</Steps>
+
+<Accordion title="使用 Dockerfile 构建（可选）">
+
+```dockerfile Dockerfile
+FROM node:18
+WORKDIR /app
+COPY . .
+RUN npm install
+CMD ["npm", "start"]
+```
+
+将代码推送到 GitHub 后，Koyeb 可自动构建并部署。
+</Accordion>
+
+## 💡 与其它平台比较（简版）
+
+| 平台                  | 部署类型            | 支持语言  | 定价模式       | 全球分发 | 亮点             |
+| ------------------- | --------------- | ----- | ---------- | ---- | -------------- |
+| **Koyeb**           | Docker 容器       | 任意    | 免费层 + 按用量  | ✅    | 全自动化、全球加速、零冷启动 |
+| **Vercel**          | 框架级（Next.js 优化） | JS/TS | 免费层 + 增值   | ✅    | 极致前端体验         |
+| **Fly.io**          | Docker 容器       | 任意    | 按实例        | ✅    | 边缘部署、数据库托管     |
+| **Render**          | 自动化容器           | 常见语言  | 免费层 + 固定计费 | ❌    | 简洁易用，适合中小项目    |
+| **Heroku**          | Buildpack       | 常见语言  | 固定计费       | ❌    | 成熟生态但过时        |
+| **Cloud Run (GCP)** | Docker 容器       | 任意    | 按请求计费      | ✅    | 企业级可靠，但配置较复杂   |
+
+<Info>
+上表仅作直观参考，实际能力以各平台最新文档为准。
+</Info>
+
+## 💵 定价与免费额度（截至 2025）
+
+<Info>
+以下额度可能随时间变化，建议部署前以 Koyeb 官方价格页为准。
+</Info>
+
+| 项目         | 免费额度          | 说明       |
+| ---------- | ------------- | -------- |
+| 计算资源       | 每月 2 个免费实例    | 包含自动休眠特性 |
+| 存储         | 5 GB 免费持久存储   | 可选挂载     |
+| 带宽         | 100 GB 免费出站流量 | 超额部分按量计费 |
+| 域名 & HTTPS | 免费自动 SSL      | 支持自定义域名  |
+
+## 🧠 适用场景
+
+- 部署 API 服务 / Web 应用
+- 托管 AI 推理 API（FastAPI、Flask 等）
+- 快速上线实验性项目 / Hackathon
+- 多区域低延迟服务
+- 替代 Heroku / Render / Fly.io
+
+## 📚 官方资源
+
+<Columns cols={2}>
+  <Card title="官网" icon="link" href="https://www.koyeb.com">
+    https://www.koyeb.com
+  </Card>
+  <Card title="文档" icon="link" href="https://www.koyeb.com/docs">
+    https://www.koyeb.com/docs
+  </Card>
+  <Card title="CLI" icon="link" href="https://github.com/koyeb/koyeb-cli">
+    https://github.com/koyeb/koyeb-cli
+  </Card>
+  <Card title="社区" icon="link" href="https://community.koyeb.com">
+    https://community.koyeb.com
+  </Card>
+</Columns>
+
