@@ -67,6 +67,105 @@
             ]
           }
         ]
+      },
+      {
+        "tab": "mcphub-docs",
+        "groups": [
+          {
+            "group": "开始使用",
+            "pages": [
+              "mcphub-docs/zh/index",
+              "mcphub-docs/zh/getting-started/quickstart"
+            ]
+          },
+          {
+            "group": "安装配置",
+            "pages": [
+              "mcphub-docs/zh/installation/installation",
+              "mcphub-docs/zh/configuration/mcp-settings",
+              "mcphub-docs/zh/configuration/environment-variables",
+              "mcphub-docs/zh/configuration/docker-setup",
+              "mcphub-docs/zh/configuration/nginx"
+            ]
+          },
+          {
+            "group": "核心功能",
+            "pages": [
+              "mcphub-docs/zh/features/server-management",
+              "mcphub-docs/zh/features/group-management",
+              "mcphub-docs/zh/features/smart-routing",
+              "mcphub-docs/zh/features/authentication",
+              "mcphub-docs/zh/features/monitoring"
+            ]
+          },
+          {
+            "group": "开发指南",
+            "pages": [
+              "mcphub-docs/zh/development/getting-started",
+              "mcphub-docs/zh/development/detailed-setup"
+            ]
+          },
+          {
+            "group": "API 文档",
+            "pages": [
+              "mcphub-docs/zh/api-reference/introduction",
+              "mcphub-docs/zh/api-reference/auth"
+            ]
+          },
+          {
+            "group": "核心接口",
+            "pages": [
+              "mcphub-docs/zh/api-reference/servers",
+              "mcphub-docs/zh/api-reference/groups",
+              "mcphub-docs/zh/api-reference/config",
+              "mcphub-docs/zh/api-reference/logs"
+            ]
+          },
+          {
+            "group": "MCP 协议",
+            "pages": [
+              "mcphub-docs/zh/api-reference/mcp-http",
+              "mcphub-docs/zh/api-reference/mcp-sse",
+              "mcphub-docs/zh/api-reference/smart-routing"
+            ]
+          },
+          {
+            "group": "集成工具",
+            "pages": [
+              "mcphub-docs/zh/api-reference/openapi"
+            ]
+          },
+          {
+            "group": "概览",
+            "pages": [
+              "mcphub-docs/Mintlify/index"
+            ]
+          },
+          {
+            "group": "基础配置",
+            "pages": [
+              "mcphub-docs/Mintlify/settings",
+              "mcphub-docs/Mintlify/navigation"
+            ]
+          },
+          {
+            "group": "部署与托管",
+            "pages": [
+              "mcphub-docs/Mintlify/hosting-deploy",
+              "mcphub-docs/Mintlify/plans-and-repo-strategy",
+              "mcphub-docs/Mintlify/multirepo-custom-aggregation"
+            ]
+          },
+          {
+            "group": "内容与媒体",
+            "pages": [
+              "mcphub-docs/Mintlify/markdown",
+              "mcphub-docs/Mintlify/images",
+              "mcphub-docs/Mintlify/code",
+              "mcphub-docs/Mintlify/reusable-snippets"
+            ]
+          }
+        ]
       }
     ],
     "global": {
