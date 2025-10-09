@@ -69,6 +69,7 @@
           {
             "group": "deploy",
             "pages": [
+              "docs/misc/deploy/koyeb",
               "docs/misc/deploy/zeabur"
             ]
           }
