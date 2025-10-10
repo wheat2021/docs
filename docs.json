@@ -64,6 +64,7 @@
             "group": "ai-tools",
             "pages": [
               "docs/misc/ai-tools/ai-info",
+              "docs/misc/ai-tools/ai-web-compare",
               "docs/misc/ai-tools/warp.dev"
             ]
           },
