@@ -1,0 +1,263 @@
+---
+title: "Warp CLI 快速入门"
+---
+
+Warp CLI 是一个强大的命令行工具，允许从任何终端使用 Warp 的 AI 智能代理功能。该工具专为构建集成和自动化工作流而设计，可以在本地或远程主机上运行。
+
+## 安装
+
+<Tabs>
+  <Tab title="捆绑安装">
+    **macOS**：打开命令面板，选择"Install Warp CLI Command" 操作，这将请求管理员权限将 CLI 安装到 `/usr/local/bin`。
+
+    **Windows**：在 Warp 安装程序中选择 "Add Warp to PATH"。
+
+    **Linux**：通过包管理器安装 Warp 后，CLI 会自动添加到系统 PATH。
+  </Tab>
+  <Tab title="独立安装">
+    **macOS（Homebrew 推荐）**：
+
+    ```bash
+    brew tap warpdotdev/warp
+    brew update
+    brew install --cask warp-cli
+    ```
+
+    **Linux（使用发行版包管理器）**：
+
+    ```bash
+    # Debian/Ubuntu
+    apt install warp-cli
+
+    # Fedora/RHEL
+    dnf install warp-cli
+
+    # Arch Linux
+    pacman -S warp-cli
+    ```
+  </Tab>
+</Tabs>
+
+## 运行 CLI
+
+根据操作系统和安装方式，命令略有不同：
+
+| 操作系统 | 安装方式 | 命令 | Preview 版命令 |
+|---------|---------|------|---------------|
+| macOS | 独立安装 | `warp` | `warp-preview` |
+| macOS | 捆绑安装 | `warp` | `warp-preview` |
+| Linux | 独立安装 | `warp-cli` | `warp-cli-preview` |
+| Linux | 捆绑安装 | `warp-terminal` | `warp-terminal-preview` |
+| Windows | 捆绑安装 | `warp` | `warp-preview` |
+
+## 身份认证
+
+如果在已登录 Warp 的主机上使用 CLI，它会自动重用现有凭证。
+
+在远程主机上设置 CLI：
+
+```bash
+warp login
+```
+
+此命令会打印一个 URL，可以在其他计算机的浏览器中打开以登录 Warp。
+
+## 运行智能代理
+
+<Steps>
+  <Step title="基本用法">
+    使用 `warp agent run` 子命令启动智能代理，需要指定提示词，可选择指定 MCP 服务器和代理配置文件。
+
+    ```bash
+    warp agent run --prompt "set up a new Rust crate named warp-cli"
+    ```
+
+    代理会自动执行任务，并在工作时打印工具调用和响应。
+  </Step>
+  <Step title="指定工作目录">
+    默认情况下，代理在当前工作目录运行，可以使用 `-C` 或 `--cwd` 指定不同目录。
+
+    ```bash
+    warp agent run -C /path/to/project --prompt "update dependencies"
+    ```
+  </Step>
+  <Step title="使用保存的提示词">
+    可以使用 `--saved-prompt` 引用保存的提示词，而不是键入完整提示。提示词 ID 为其 URL 的最后一部分。
+
+    ```bash
+    warp agent run --saved-prompt sgNpbUgDkmp2IImUVDc8kR
+    ```
+  </Step>
+  <Step title="引用 Warp Drive 对象">
+    提示词可以包含 Warp Drive 对象或规则作为上下文，语法为 `@workflow:id`、`@notebook:id` 或 `@rule:id`。
+
+    ```bash
+    warp agent run --prompt "Follow the instructions in @notebook:gq1CMAUWLtaL1CpEoTDQ3y"
+    ```
+  </Step>
+</Steps>
+
+## 代理配置文件管理：列出配置文件
+
+查看所有可用的代理配置文件及其 ID：
+
+```bash
+warp agent profile list
+```
+
+输出示例：
+
+```
+--------------------------------------
+Name                  ID
+Default               AnTb02PZfrkVC9l4V15eH1
+--------------------------------------
+Coding                CWhozDJPdPCsjJ1pSG0HCN
+--------------------------------------
+Command Line          hV6n5dNm7ThQVlOiPF8DLS
+--------------------------------------
+```
+
+## 代理配置文件管理：使用特定配置文件
+
+使用 `--profile` 标志选择配置文件：
+
+```bash
+warp agent run --profile CWhozDJPdPCsjJ1pSG0HCN --prompt "update my CI pipeline to use nextest"
+```
+
+代理配置文件会自动同步到安装了 Warp 的每台主机，因此可以在远程使用它们。
+
+## 代理配置文件管理：配置文件设置
+
+每个代理配置文件可以配置：
+
+- **基础模型**：代理的核心引擎，处理大多数交互
+- **规划模型**：负责将复杂任务分解为可执行步骤
+- **自主权限**：定义代理在不同操作中的独立程度
+
+**权限级别**：
+
+| 级别 | 描述 |
+|------|------|
+| Agent Decides | 代理有信心时自主行动，不确定时请求批准 |
+| Always Ask | 执行任何操作前都请求明确批准 |
+| Always Allow | 不请求确认直接执行操作 |
+| Never | 永不执行该操作 |
+
+## MCP 服务器集成
+
+<Steps>
+  <Step title="列出 MCP 服务器">
+    查看所有已配置的 MCP 服务器及其 UUID。
+
+    ```bash
+    warp mcp list
+    ```
+
+    输出包含服务器 UUID 与名称，便于选择使用。
+  </Step>
+  <Step title="使用 MCP 服务器运行代理">
+    使用 `--mcp-server` 指定要启动的 MCP 服务器。
+
+    ```bash
+    warp agent run --mcp-server 1deb1b14-b6e5-4996-ae99-233b7555d2d0 --prompt "who last updated the README?"
+    ```
+
+    若所选代理配置文件允许该 MCP 服务器，它会被自动启动。
+  </Step>
+  <Step title="环境变量管理">
+    Warp 会在主机之间同步 MCP 服务器配置，但不会同步环境变量。远程主机运行时请设置所需的环境变量。
+
+    ```bash
+    export MY_MCP_SERVER_ACCESS_TOKEN="..."
+    warp agent run --mcp-server 904a8936-fa82-4571-b1d6-166c26197981 --prompt "use my MCP server to check for errors"
+    ```
+  </Step>
+</Steps>
+
+## 命令白名单和黑名单
+
+<Columns>
+  <Card title="命令白名单">
+    定义可以自动运行而无需确认的命令。
+
+    ```bash
+    which .   # 查找可执行文件位置
+    ls.*      # 列出目录内容
+    grep.*    # 搜索文件内容
+    find .    # 搜索文件
+    echo.*    # 打印文本输出
+    ```
+
+    白名单中的命令会自动执行，即使它们不是只读操作。
+  </Card>
+  <Card title="命令黑名单">
+    定义始终需要明确用户批准的命令；其优先级高于白名单与 "Agent Decides" 设置。
+
+    ```bash
+    wget.*    # 网络下载
+    curl.*    # 网络请求
+    rm.*      # 文件删除
+    eval.*    # Shell 代码执行
+    ```
+  </Card>
+</Columns>
+
+## 获取帮助
+
+使用内置帮助命令获取最新信息：
+
+```bash
+# 查看所有 MCP 相关命令
+warp help mcp
+
+# 查看代理相关命令
+warp help agent
+
+# 查看完整帮助
+warp help
+```
+
+## 实战示例
+
+<Tabs>
+  <Tab title="示例 1：设置新项目">
+    ```bash
+    warp agent run --prompt "Detect the current Git branch, check if there's a root Cargo.toml, create a new binary crate named warp-cli, and update the root Cargo.toml if this is a workspace"
+    ```
+
+    代理会自动执行多个命令来完成上述任务。
+  </Tab>
+  <Tab title="示例 2：配置文件 + MCP 服务器">
+    ```bash
+    warp agent profile list
+    warp mcp list
+    warp agent run --profile CWhozDJPdPCsjJ1pSG0HCN --mcp-server 1deb1b14-b6e5-4996-ae99-233b7555d2d0 --prompt "check recent issues in the GitHub repository"
+    ```
+  </Tab>
+  <Tab title="示例 3：Warp Drive 上下文">
+    ```bash
+    warp agent run --prompt "Follow the setup instructions in @notebook:gq1CMAUWLtaL1CpEoTDQ3y and apply the coding standards from @rule:abc123xyz"
+    ```
+  </Tab>
+  <Tab title="示例 4：远程主机工作流">
+    ```bash
+    # 在远程主机上登录
+    warp login
+
+    # 设置 MCP 环境变量
+    export GITHUB_TOKEN="your-token"
+
+    # 运行代理
+    warp agent run --mcp-server 1deb1b14-b6e5-4996-ae99-233b7555d2d0 --prompt "analyze recent commits and create a summary"
+    ```
+  </Tab>
+</Tabs>
+
+## 安全建议
+
+1. **为 CLI 使用创建专用配置文件**：CLI 在尝试执行禁止操作时会失败，因此确保配置文件允许需要使用的目录、命令和 MCP 服务器。
+2. **使用密码管理器**：在远程主机上，考虑使用密码或秘密管理器 CLI（如 `op`、`pass` 或 `gcloud secrets versions access`）来获取 MCP 秘密。
+3. **谨慎配置权限**：根据环境调整自主权限设置，在生产服务器上使用更严格的权限。
+4. **监控命令执行**：代理会在工作时打印工具调用和响应，始终查看代理执行的命令。
