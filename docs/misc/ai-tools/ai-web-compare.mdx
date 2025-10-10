@@ -8,47 +8,75 @@ title: "主流Chatbot对比（免费版）"
 
 ## 核心平台对比
 
-<Columns>
-  <Card title="ChatGPT" icon="openai">
-    **消息限制**: 10条/5小时 (GPT-5模型)
-    
-    **上下文窗口**: 128K tokens
-    
-    **特色功能**: 语音对话、自定义GPT、图像生成
-    
-    **付费升级**: $20/月
-  </Card>
+<Tabs>
+  <Tab title="消息限制">
+    <Columns>
+      <Card title="ChatGPT">
+        10条/5小时 (GPT-5模型)，超出后自动降级到GPT-4o mini继续使用。
+      </Card>
+      <Card title="Claude">
+        约40条/天，按5小时会话窗口重置，达到限制后需等待。
+      </Card>
+      <Card title="Grok">
+        10-20条/2小时，重置周期最短，对X平台用户免费开放。
+      </Card>
+      <Card title="Gemini">
+        5条/天 (2.5 Pro模型)，超出后降级到Flash模型。
+      </Card>
+    </Columns>
+  </Tab>
   
-  <Card title="Claude" icon="anthropic">
-    **消息限制**: 约40条/天
-    
-    **上下文窗口**: 200K tokens
-    
-    **特色功能**: 长文档分析、Projects、强隐私保护
-    
-    **付费升级**: $20/月
-  </Card>
+  <Tab title="上下文窗口">
+    <Columns>
+      <Card title="Claude">
+        200K tokens，相当于约500页文本内容，最适合长文档分析。
+      </Card>
+      <Card title="ChatGPT">
+        128K tokens，足以处理大多数对话和文档需求。
+      </Card>
+      <Card title="Grok">
+        100K tokens，性能中等。
+      </Card>
+      <Card title="Gemini">
+        32K tokens (免费版)，在处理长对话时存在劣势。
+      </Card>
+    </Columns>
+  </Tab>
   
-  <Card title="Grok" icon="twitter">
-    **消息限制**: 10-20条/2小时
-    
-    **上下文窗口**: 100K tokens
-    
-    **特色功能**: 实时X数据访问、图像生成
-    
-    **付费升级**: $30/月
-  </Card>
+  <Tab title="特色功能">
+    <Columns>
+      <Card title="ChatGPT">
+        语音对话、自定义GPT、图像生成，功能最全面。
+      </Card>
+      <Card title="Claude">
+        长文档分析、Projects、强隐私保护，专业性强。
+      </Card>
+      <Card title="Grok">
+        实时X数据访问、图像生成，社交媒体优势明显。
+      </Card>
+      <Card title="Gemini">
+        Google集成、Deep Research、大量图像生成，生态优势。
+      </Card>
+    </Columns>
+  </Tab>
   
-  <Card title="Gemini" icon="google">
-    **消息限制**: 5条/天 (2.5 Pro模型)
-    
-    **上下文窗口**: 32K tokens (免费版)
-    
-    **特色功能**: Google集成、Deep Research、大量图像生成
-    
-    **付费升级**: $19.99/月
-  </Card>
-</Columns>
+  <Tab title="付费升级">
+    <Columns>
+      <Card title="Gemini">
+        $19.99/月，最具性价比的付费方案。
+      </Card>
+      <Card title="ChatGPT">
+        $20/月，功能全面的标准定价。
+      </Card>
+      <Card title="Claude">
+        $20/月，专业用户的优质选择。
+      </Card>
+      <Card title="Grok">
+        $30/月，价格最高但提供独特价值。
+      </Card>
+    </Columns>
+  </Tab>
+</Tabs>
 
 ## 使用限制详解
 
@@ -107,14 +135,109 @@ title: "主流Chatbot对比（免费版）"
 
 ## 多模态功能对比
 
-| 功能维度   | ChatGPT          | Claude                    | Grok           | Gemini         |
-|------------|------------------|---------------------------|----------------|----------------|
-| 图像生成   | 2-3张/天         | 不支持                    | 4张/天         | 100张/天       |
-| 图像分析   | 支持上传分析     | 支持上传分析              | 3次/天         | 支持分析       |
-| 文件上传   | 3个文件/天       | 30MB/文件，20文件/对话    | 有限支持       | 支持上传       |
-| 语音功能   | 支持语音对话     | 不支持                    | 不支持         | 不支持         |
-| 网络搜索   | 支持             | 支持                      | 支持X+网络     | 支持Google搜索 |
-| 实时数据   | 网络浏览         | 网络搜索                  | 实时X数据      | Google服务集成 |
+<Tabs>
+  <Tab title="图像生成">
+    <Columns>
+      <Card title="Gemini">
+        100张/天，最大的图像生成配额，适合设计师和内容创作者。
+      </Card>
+      <Card title="Grok">
+        4张/天，提供基础的图像生成能力。
+      </Card>
+      <Card title="ChatGPT">
+        2-3张/天，图像生成功能有限但质量较高。
+      </Card>
+      <Card title="Claude">
+        不支持图像生成功能。
+      </Card>
+    </Columns>
+  </Tab>
+  
+  <Tab title="图像分析">
+    <Columns>
+      <Card title="ChatGPT">
+        支持上传分析，图像理解能力强，可处理复杂视觉内容。
+      </Card>
+      <Card title="Claude">
+        支持上传分析，在文档和图表分析方面表现优秀。
+      </Card>
+      <Card title="Gemini">
+        支持分析，与Google服务集成，识别准确度高。
+      </Card>
+      <Card title="Grok">
+        3次/天，图像分析功能相对有限。
+      </Card>
+    </Columns>
+  </Tab>
+  
+  <Tab title="文件上传">
+    <Columns>
+      <Card title="Claude">
+        30MB/文件，20文件/对话，最强的文档处理能力。
+      </Card>
+      <Card title="Gemini">
+        支持上传，与Google Drive深度集成。
+      </Card>
+      <Card title="ChatGPT">
+        3个文件/天，支持多种文件格式。
+      </Card>
+      <Card title="Grok">
+        有限支持，文件处理能力较弱。
+      </Card>
+    </Columns>
+  </Tab>
+  
+  <Tab title="语音功能">
+    <Columns>
+      <Card title="ChatGPT">
+        支持语音对话，提供自然的语音交互体验，是唯一支持语音的平台。
+      </Card>
+      <Card title="Claude">
+        不支持语音功能。
+      </Card>
+      <Card title="Grok">
+        不支持语音功能。
+      </Card>
+      <Card title="Gemini">
+        不支持语音功能。
+      </Card>
+    </Columns>
+  </Tab>
+  
+  <Tab title="网络搜索">
+    <Columns>
+      <Card title="Gemini">
+        支持Google搜索，信息检索能力最强，实时性好。
+      </Card>
+      <Card title="Grok">
+        支持X+网络搜索，特别擅长社交媒体和实时信息。
+      </Card>
+      <Card title="ChatGPT">
+        支持网络浏览，可获取最新信息。
+      </Card>
+      <Card title="Claude">
+        支持网络搜索，但功能相对基础。
+      </Card>
+    </Columns>
+  </Tab>
+  
+  <Tab title="实时数据">
+    <Columns>
+      <Card title="Grok">
+        实时X数据访问，社交媒体热点追踪能力独特。
+      </Card>
+      <Card title="Gemini">
+        Google服务集成，可访问Gmail、日历等实时数据。
+      </Card>
+      <Card title="ChatGPT">
+        网络浏览功能，可获取实时网页信息。
+      </Card>
+      <Card title="Claude">
+        网络搜索，实时数据获取能力有限。
+      </Card>
+    </Columns>
+  </Tab>
+</Tabs>
 
 ## 技术性能评估
 
