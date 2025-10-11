@@ -65,7 +65,8 @@
             "pages": [
               "docs/misc/ai-tools/ai-info",
               "docs/misc/ai-tools/ai-web-compare",
-              "docs/misc/ai-tools/warp.dev"
+              "docs/misc/ai-tools/warp.dev",
+              "docs/misc/ai-tools/warp.dev2"
             ]
           },
           {
@@ -73,6 +74,13 @@
             "pages": [
               "docs/misc/deploy/koyeb",
               "docs/misc/deploy/zeabur"
+            ]
+          },
+          {
+            "group": "prompt",
+            "pages": [
+              "docs/misc/prompt/gpt4.1prompt-translate",
+              "docs/misc/prompt/gtp4.1prompt"
             ]
           }
         ]
