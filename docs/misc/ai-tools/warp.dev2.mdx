@@ -1,0 +1,267 @@
+---
+title: "Warp 快速入门文档"
+description: "帮助新用户快速理解和上手 Warp 现代化终端的完整指南"
+---
+
+## 产品概述
+
+Warp 是一个现代化的代理开发环境（Agentic Development Environment），专为帮助开发人员通过 AI 代理更快地交付代码而构建。与传统终端不同，Warp 集成了 AI 驱动的代码生成、智能命令建议和现代化文本编辑功能，将终端体验提升到 IDE 级别。
+
+该产品使用 Rust 构建，支持 zsh、bash、fish 和 PowerShell 等主流 Shell，并可在 macOS、Windows 和 Linux 平台上运行。Warp 的核心理念是通过自然语言交互和上下文感知能力，让开发人员能够直接通过提示词编写代码、调试问题和执行命令，从而显著提高开发效率。
+
+## 适用用户与场景
+
+<Tabs>
+  <Tab title="目标用户群体">
+    <Columns>
+      <Card title="全栈和后端开发工程师" icon="code">
+        <p>需要频繁在终端执行命令、管理代码库和部署服务的开发人员。</p>
+      </Card>
+      
+      <Card title="DevOps 和 SRE 工程师" icon="settings">
+        <p>需要运维脚本、监控日志和自动化任务的运维人员。</p>
+      </Card>
+    </Columns>
+    
+    <Columns>
+      <Card title="开源贡献者和技术团队" icon="users">
+        <p>需要协作共享命令、工作流和文档的团队成员。</p>
+      </Card>
+      
+      <Card title="AI 辅助开发的早期采用者" icon="sparkles">
+        <p>希望通过 AI 提升编码和命令行工作效率的开发者。</p>
+      </Card>
+    </Columns>
+  </Tab>
+  
+  <Tab title="典型应用场景">
+    <Columns>
+      <Card title="代码生成与编辑" icon="edit">
+        <p>通过自然语言描述需求，让 AI 直接生成或修改代码文件。</p>
+      </Card>
+      
+      <Card title="命令行调试" icon="bug">
+        <p>当命令执行失败时，AI 自动分析错误并提供修复建议。</p>
+      </Card>
+    </Columns>
+    
+    <Columns>
+      <Card title="团队协作" icon="share">
+        <p>通过 Warp Drive 共享 Workflows、Notebooks 和环境变量，标准化团队操作。</p>
+      </Card>
+      
+      <Card title="快速查找历史命令" icon="search">
+        <p>使用模糊搜索在命令历史、工作流和 AI 建议中快速定位所需命令。</p>
+      </Card>
+    </Columns>
+    
+    <Card title="多会话同步操作" icon="terminal">
+      <p>在多个终端窗格中同时执行相同命令，提升批量操作效率。</p>
+    </Card>
+  </Tab>
+</Tabs>
+
+## 核心功能
+
+<Tabs>
+  <Tab title="AI 代理模式">
+    <p>Warp 的 Agent Mode 是核心功能，能够自动识别自然语言输入并调用 AI 完成任务。开发人员可以通过 <code>Ctrl+I</code>（Windows）或输入 <code>* </code>（星号+空格）进入代理模式，然后用自然语言描述任务。</p>
+
+    <p><strong>业务场景支持：</strong></p>
+    <ul>
+      <li>当开发人员不确定命令语法时，可直接输入"列出当前目录下所有大于 10MB 的文件"，AI 会生成并解释相应的命令</li>
+      <li>代码调试时，可以将错误输出附加到 AI 查询中，系统会自动分析并建议修复方案</li>
+      <li>AI 支持多轮对话和自我纠错，如果建议的命令失败，会自动请求执行新命令直到完成任务</li>
+    </ul>
+  </Tab>
+
+  <Tab title="代码编辑">
+    <p>Warp 可以索引 Git 代码库并生成上下文感知的代码编辑建议。当进入 Git 仓库时，Warp 会初始化代码库索引并生成 <code>WARP.md</code> 文件用于存储项目级规则。</p>
+
+    <p><strong>业务场景支持：</strong></p>
+    <ul>
+      <li><strong>单文件修改</strong>：例如"将此文件中的所有 <code>var</code> 替换为 <code>let</code>"</li>
+      <li><strong>批量修改</strong>：例如"为该目录下所有 <code>.py</code> 文件添加文件头"</li>
+      <li><strong>基于错误输出的修复</strong>：当 TypeScript 编译失败时，可直接让 AI 根据错误信息修复代码</li>
+    </ul>
+
+    <p>开发人员还可以通过 Rules 功能定义全局或项目级编码标准，让 AI 生成符合团队规范的代码。</p>
+  </Tab>
+
+  <Tab title="Blocks 编辑器">
+    <p>Warp 将命令输入和输出组织为 Blocks，每个 Block 都是独立单元，支持快速导航、复制和搜索。输入编辑器采用类似 IDE 的体验，支持多行编辑、光标跳转和智能选择。</p>
+
+    <p><strong>业务场景支持：</strong></p>
+    <ul>
+      <li>在查看大量日志时，Sticky Command Header 会固定显示当前 Block 的命令，方便快速定位</li>
+      <li>开发人员可以双击智能选择 URL、文件路径或 IP 地址，无需手动拖拽</li>
+      <li>使用 <code>Ctrl+Alt</code> 加鼠标拖拽可进行矩形选择，适合复制结构化日志或列数据</li>
+    </ul>
+  </Tab>
+
+  <Tab title="Workflows">
+    <p>Workflows 是参数化的可执行命令模板，采用 YAML 格式定义，可通过 Command Search（<code>Ctrl+R</code>）快速搜索和执行。</p>
+
+    <p><strong>业务场景支持：</strong></p>
+    <ul>
+      <li>团队可以将常用的部署脚本保存为 Workflow，新成员无需记忆复杂命令即可执行</li>
+      <li>支持参数化配置，同一个 Workflow 可以适配不同环境和场景</li>
+      <li>通过 Warp Drive 共享这些对象，确保团队使用统一的操作流程</li>
+    </ul>
+  </Tab>
+
+  <Tab title="Notebooks">
+    <p>Notebooks 是可运行的文档，包含 Markdown 文本和可执行的 Shell 代码块。</p>
+
+    <p><strong>业务场景支持：</strong></p>
+    <ul>
+      <li>Notebooks 可作为运维手册，包含操作说明和可直接运行的命令，实现文档和实操的统一</li>
+      <li>支持导出为 Markdown 格式，便于版本控制和知识传承</li>
+      <li>团队可以通过 Warp Drive 共享 Notebooks，标准化操作流程</li>
+    </ul>
+  </Tab>
+
+  <Tab title="Warp Drive">
+    <p>Warp Drive 是一个侧边栏工作区，用于存储和管理 Workflows、Notebooks、Prompts 和环境变量。开发人员可以通过 <code>Ctrl+Shift+.</code>（Windows）打开该面板。</p>
+
+    <p><strong>业务场景支持：</strong></p>
+    <ul>
+      <li>个人工作区用于保存私有命令和脚本，团队工作区则用于共享协作内容</li>
+      <li>支持将对象组织到文件夹中，便于分类管理</li>
+      <li>所有对象支持导入导出（Workflows 为 YAML，Notebooks 为 Markdown，环境变量为 .env）</li>
+    </ul>
+  </Tab>
+</Tabs>
+
+## Windows 11 安装指南
+
+### 系统要求
+
+在开始安装前，请确保系统满足以下要求：
+
+- Windows 10 版本 1809（内部版本 17763）或更高版本
+- Windows Server 2019（内部版本 17763）或 Windows Server 2022（内部版本 20348）或更高版本
+- 支持 Windows Pseudo Console (ConPTY) 功能
+
+### 安装步骤
+
+<Steps>
+  <Step title="下载安装程序">
+    <p>访问 Warp 官方下载页面（<a href="https://app.warp.dev/download">https://app.warp.dev/download</a>），下载适用于 Windows 的安装程序。Warp 支持 x86-64 和 ARM64 架构。</p>
+    
+    <p>或者使用 WinGet 包管理器安装：</p>
+    ```
+    winget install Warp.Warp
+    ```
+  </Step>
+
+  <Step title="执行安装">
+    <p>双击下载的安装程序并按照提示完成安装。安装完成后，可在开始菜单中找到 Warp。</p>
+  </Step>
+
+  <Step title="首次启动配置">
+    <ul>
+      <li><strong>登录（可选）</strong>：首次启动时可选择通过 Google 或 GitHub 账号注册，也可跳过此步骤。Warp 仅获取关联的邮箱地址，不会访问其他数据</li>
+      <li><strong>选择默认 Shell</strong>：Warp 会尝试加载系统登录 Shell，目前支持 bash、fish、zsh 和 PowerShell。可在 Settings > Features > Session 中修改默认 Shell</li>
+      <li><strong>导入设置（可选）</strong>：如果从其他终端（如 Windows Terminal）迁移，可导入键盘快捷键和配色主题</li>
+    </ul>
+  </Step>
+
+  <Step title="验证安装">
+    <p>首次打开时需要网络连接，之后可离线使用，但 AI 和协作功能需要联网。安装完成后，Warp 会自动配置更新机制，确保始终使用最新版本。</p>
+  </Step>
+</Steps>
+
+## 快速入门场景
+
+<Steps>
+  <Step title="使用 AI 生成和执行命令">
+    <ul>
+      <li>打开 Warp 终端窗口</li>
+      <li>按 <code>Ctrl+I</code> 或输入 <code>* </code>（星号+空格）进入 Agent Mode</li>
+      <li>用自然语言描述任务，例如："找出当前目录下最大的 5 个文件并按大小排序"</li>
+      <li>按 <code>Enter</code> 执行 AI 查询，Warp 会生成相应命令并填充到输入框</li>
+      <li>再次按 <code>Enter</code> 执行该命令，或按 <code>Esc</code> 退出 Agent Mode</li>
+    </ul>
+  </Step>
+
+  <Step title="快速搜索和执行历史命令">
+    <ul>
+      <li>按 <code>Ctrl+R</code> 打开 Command Search 面板</li>
+      <li>输入关键词进行模糊搜索（支持搜索命令历史、Workflows 和 Notebooks）</li>
+      <li>使用 <code>↑</code> / <code>↓</code> 键导航选择</li>
+      <li>按 <code>Enter</code> 将选中的命令插入到输入编辑器</li>
+      <li>修改参数后按 <code>Enter</code> 执行</li>
+    </ul>
+  </Step>
+
+  <Step title="创建和执行 Workflow">
+    <ul>
+      <li>在 Warp Drive 面板（按 <code>Ctrl+Shift+.</code> 打开）中点击 "New Workflow"</li>
+      <li>定义 Workflow 名称和命令：</li>
+    </ul>
+
+    ```
+    name: 部署到生产环境
+    command: ssh user@prod-server 'cd /app && git pull && ./deploy.sh'
+    ```
+
+    <ul>
+      <li>保存后，通过 <code>Ctrl+R</code> 搜索该 Workflow 名称并执行</li>
+    </ul>
+  </Step>
+
+  <Step title="使用 Notebooks 作为操作手册">
+    <ul>
+      <li>在 Warp Drive 中点击 "New Notebook"</li>
+      <li>添加 Markdown 说明和代码块</li>
+      <li>保存后，在 Notebook 中点击代码块旁的运行图标，命令会自动插入到终端输入框</li>
+      <li>按 <code>Enter</code> 执行命令</li>
+    </ul>
+  </Step>
+
+  <Step title="调试代码并自动修复错误">
+    <ul>
+      <li>在 Git 仓库目录中运行代码编译或测试命令</li>
+      <li>如果出现错误，点击输出 Block 旁的 AI 图标（sparkles icon）</li>
+      <li>选择 "Attach blocks to AI query" 将错误信息附加到 AI 查询</li>
+      <li>输入自然语言请求，例如："修复这个 TypeScript 错误"</li>
+      <li>AI 会分析错误并生成修复代码，按提示应用修改</li>
+    </ul>
+  </Step>
+
+  <Step title="多窗格同步执行命令">
+    <ul>
+      <li>按 <code>Ctrl+Shift+D</code> 分割窗格</li>
+      <li>在多个窗格中打开需要同时操作的会话</li>
+      <li>启用 Synchronized Inputs 功能（在 Command Palette 中搜索 "Synchronized Inputs"）</li>
+      <li>在一个窗格中输入命令，所有窗格会同步执行</li>
+    </ul>
+  </Step>
+</Steps>
+
+## 其他实用功能
+
+<Columns>
+  <Card title="Command Search 和命令纠错" icon="search">
+    <p>Command Search（<code>Ctrl+R</code>）整合了命令历史、Workflows、Notebooks 和 Agent Mode 历史的统一搜索。Command Corrections 功能基于开源项目构建，可自动检测命令拼写错误、缺失参数并提供修复建议。</p>
+
+    <p><strong>典型场景：</strong></p>
+    <ul>
+      <li>当输入 <code>gti checkout myBranch</code> 时，系统会自动建议修正为 <code>git checkout myBranch</code></li>
+      <li>执行 <code>git push</code> 失败时，会提示添加 <code>--set-upstream</code> 参数</li>
+      <li>模糊搜索功能让开发人员可以快速找到历史执行过的复杂命令</li>
+    </ul>
+  </Card>
+  
+  <Card title="协作与共享" icon="users">
+    <p>Warp Drive 支持团队工作区，允许团队成员共享 Workflows、Notebooks 和环境变量。所有对象都支持导入导出，便于版本控制和跨团队传播最佳实践。</p>
+    
+    <p><strong>主要优势：</strong></p>
+    <ul>
+      <li>团队工作区实现跨团队协作</li>
+      <li>支持多种格式导入导出</li>
+      <li>统一的操作规范和最佳实践</li>
+    </ul>
+  </Card>
+</Columns>

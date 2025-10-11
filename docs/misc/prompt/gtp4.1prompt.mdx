@@ -1,0 +1,109 @@
+# GPT-4.1 模型提示指南
+
+## 1. 代理工作流 (Agentic Workflows)
+
+### 系统提示提醒 (System Prompt Reminders)
+
+#### 持久性 (Persistence)
+
+- 示例: 持续进行直到完全解决问题
+#### 工具调用 (Tool-calling)
+
+- 示例: 不确定时使用工具，不要猜测
+- 规划 (Planning) [可选]
+### 工具调用 (Tool Calls) 优化
+
+- 推荐 API 'tools' 字段传递工具
+- 在 'description' 字段添加详细描述
+- 工具用法示例放置于系统提示的 `# Examples` 部分
+### 诱导规划与思维链 (CoT)
+
+- GPT-4.1 不是推理模型
+- 通过 Planning 提示组件诱导显式、逐步的规划
+- 效果: SWE-bench 任务通过率提高 4%
+- SWE-bench Verified 示例提示 (工作流详细)
+### 模型特性 (字面遵循)
+
+- 超越 GPT-4o 的能力
+- 通过提示诱导规划 (Planning)
+- 高度可操纵性 (steerable)
+- 构建信息丰富的评估（Evals）
+- 经常迭代 (Iterate Often)
+## 2. 长上下文 (Long Context)
+
+### 上下文窗口: 1M token
+
+- “大海捞针”评估表现优异 (达到 1M)
+- 仅使用外部上下文 (External Context)
+### 提示组织 (Prompt Organization)
+
+- 同时使用内部和外部知识 (默认行为)
+## 3. 思维链 (Chain of Thought, CoT)
+
+- 目的: 分解问题为更易管理的部分，提高输出质量
+- 代价: 增加成本和延迟 (更多输出 token)
+- 推荐基础 CoT 指令: 'First, think carefully step by step...'
+### 改进 CoT 提示
+
+#### 示例策略 (Query/Context Analysis)
+
+- 1. Query Analysis (查询分析)
+- 2. Context Analysis (上下文分析，优化召回率)
+- 3. Synthesis (综合，总结最相关文档)
+## 4. 指令遵循 (Instruction Following)
+
+### 性能: 表现出色，可精确控制输出
+
+- 1. 设定高层次的 'Response Rules'/'Instructions' 部分
+### 字面遵循: 可能需要包含明确的'做什么'/'不做什么'的规范
+
+- 2. 添加子部分指定具体行为 (如 `# Sample Phrases`)
+#### 3. 使用有序列表指定工作流步骤
+
+- 检查冲突、不明确的指令 (模型倾向遵循末尾指令)
+- 4. 调试失败行为
+### 客户服务代理示例提示 (展示多样化规则和结构)
+
+- 过度遵循 '必须调用工具' 导致幻觉/空值调用 (应增加信息不足时询问用户的指令)
+- 重复使用样本短语 (需指示其变化)
+- 过度提供解释性散文或多余格式 (需提供明确指令/示例)
+## 5. 一般建议与结构
+
+### 提示结构 (Starting Point)
+
+- # Role and Objective
+- # Instructions (包括子类别)
+- # Reasoning Steps
+- # Output Format
+- # Examples
+- # Context
+- # Final instructions and prompt to think step by step
+### 分隔符 (Delimiters) 建议
+
+- 1. Markdown (推荐起点，用于标题和列表)
+- 2. XML (表现良好，方便包装和嵌套)
+#### 3. JSON (结构化，但在非编码环境可能冗长)
+
+- XML (表现良好)
+- Lee et al. 格式 (ID: 1 | TITLE:...) (表现良好)
+### 注意事项 (Caveats)
+
+#### 可能抗拒生成非常长、重复的输出 (需强烈指示)
+
+- JSON 格式 (表现不佳)
+- 罕见并行工具调用不正确 (可考虑禁用 `parallel_tool_calls`)
+## 附录: 生成和应用文件补丁 (Diffs)
+
+- GPT-4.1 Diff 能力大幅提升
+### 推荐 V4A Diff 格式 (Apply Patch Tool)
+
+- 命令结构: `%%bash apply_patch <<"EOF" ...`
+- 文件操作: `*** [ACTION] File: [path]` (Add, Update, Delete)
+- 代码块变更: `- [old_code]`, `+ [new_code]`
+- 上下文 (Context): 默认 3 行前后上下文
+- 唯一识别: 使用 `@@` 指示类或函数
+### 其他有效 Diff 格式
+
+- SEARCH/REPLACE 格式 (Aider benchmark)
+- Pseudo-XML 格式 (无内部转义)
+- 共同点: 不使用行号；提供旧代码和精确替换的新代码
