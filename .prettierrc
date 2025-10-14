@@ -10,10 +10,10 @@
   "plugins": ["d:/CODE/GITHUB/docs/scripts/prettier-plugin-mdx-spacing.js"],
   "overrides": [
     {
-      "files": "*.mdx",
+      "files": ["*.mdx"],
       "options": {
         "parser": "mdx",
-        "proseWrap": "preserve"
+        "printWidth": 999999
       }
     }
   ]

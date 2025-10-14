@@ -1,0 +1,8 @@
+# Ignore MDX files
+*.mdx
+
+# Other files to ignore (if needed)
+# *.md
+# build/
+# dist/
+# node_modules/
