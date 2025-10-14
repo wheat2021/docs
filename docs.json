@@ -11,7 +11,7 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Mintlify 文档",
+        "tab": "mintlify",
         "groups": [
           {
             "group": "快速开始",
@@ -65,6 +65,9 @@
             "pages": [
               "docs/misc/ai-tools/ai-info",
               "docs/misc/ai-tools/ai-web-compare",
+              "docs/misc/ai-tools/mintlify",
+              "docs/misc/ai-tools/n8n",
+              "docs/misc/ai-tools/test",
               "docs/misc/ai-tools/warp.dev",
               "docs/misc/ai-tools/warp.dev2"
             ]
@@ -89,9 +92,16 @@
         "tab": "opensource",
         "groups": [
           {
-            "group": "cli",
+            "group": "命令行工具",
             "pages": [
               "docs/opensource/cli/sigoden-aichat"
+            ]
+          },
+          {
+            "group": "文档工具",
+            "pages": [
+              "docs/opensource/doc/mintlify",
+              "docs/opensource/doc/zread"
             ]
           }
         ]

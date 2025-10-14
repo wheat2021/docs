@@ -1,28 +1,26 @@
 ---
-title: "sigoden/aichat"
+title: 'sigoden/aichat'
 ---
 
 ## 项目概述
 
 AIChat 是一个功能全面的 LLM（大语言模型）命令行工具，集成了 Shell 助手、交互式对话、RAG（检索增强生成）、AI 工具和智能代理等功能。
-
 **项目地址**: https://github.com/sigoden/aichat
-
 **开发语言**: Rust
-
 **许可协议**: MIT License / Apache License 2.0
 
 ## 目标用户
 
 <Tabs>
   <Tab title="开发者与工程师">
-    需要在终端环境中快速访问 LLM 的程序员，希望将 AI 能力集成到开发工作流的技术人员，以及需要自动化脚本和命令行任务的系统管理员。
+    - 需要在终端环境中快速访问 LLM 的程序员 - 希望将 AI 能力集成到开发工作流的技术人员 -
+    需要自动化脚本和命令行任务的系统管理员。
   </Tab>
   <Tab title="数据科学家与研究人员">
-    需要处理文档、数据分析和 RAG 应用的专业人士，希望快速测试和比较不同 LLM 模型的研究者。
+    - 需要处理文档、数据分析和 RAG 应用的专业人士 - 希望快速测试和比较不同 LLM 模型的研究者
   </Tab>
   <Tab title="高级命令行用户">
-    偏好终端操作的技术爱好者，需要高效、可定制的 AI 交互工具的用户。
+    - 偏好终端操作的技术爱好者 - 需要高效、可定制的 AI 交互工具的用户
   </Tab>
 </Tabs>
 
@@ -35,65 +33,34 @@ AIChat 是一个功能全面的 LLM（大语言模型）命令行工具，集成
   <Card title="命令行优先">
     专为终端环境设计，提供流畅的 CLI 体验，支持管道操作、标准输入输出，完美融入 Unix 哲学。
   </Card>
-  <Card title="灵活可扩展">
-    支持自定义角色、宏命令、函数调用，可集成外部工具和文档。
-  </Card>
-  <Card title="即开即用，高度可配置">
-    零配置快速启动，提供丰富的配置选项满足高级需求。
-  </Card>
+  <Card title="灵活可扩展">支持自定义角色、宏命令、函数调用，可集成外部工具和文档。</Card>
+  <Card title="即开即用，高度可配置">零配置快速启动，提供丰富的配置选项满足高级需求。</Card>
 </Columns>
 
 ## 主要使用场景
 
 <Tabs>
   <Tab title="Shell 命令助手">
-    用自然语言描述任务，AIChat 将其转换为精确的 Shell 命令：
-
-    ```bash
-    # 描述需求，获取命令建议
-    $ aichat find all pdf files larger than 10MB
-
-    # AIChat 会根据你的 OS 和 Shell 环境生成合适的命令
+    用自然语言描述任务，AIChat 将其转换为精确的 Shell 命令： ```bash # 描述需求，获取命令建议 $
+    aichat find all pdf files larger than 10MB # AIChat 会根据你的 OS 和 Shell 环境生成合适的命令
     ```
   </Tab>
   <Tab title="交互式对话 (REPL)">
-    启动交互式会话，支持多轮对话、历史记录、Tab 补全：
-
-    ```bash
-    $ aichat
-    aichat> Explain the difference between TCP and UDP
-    aichat> .file network_diagram.png -- analyze this diagram
-    ```
+    启动交互式会话，支持多轮对话、历史记录、Tab 补全： ```bash $ aichat aichat> Explain the
+    difference between TCP and UDP aichat> .file network_diagram.png -- analyze this diagram ```
   </Tab>
   <Tab title="文档处理与 RAG">
-    处理本地文件、远程 URL 和目录内容：
-
-    ```bash
-    # 分析本地文件
-    $ aichat -f document.pdf summarize this
-
-    # 处理目录
-    $ aichat -f ./project/ explain the code structure
-
-    # 远程 URL
-    $ aichat -f https://example.com/article extract key points
-    ```
+    处理本地文件、远程 URL 和目录内容： ```bash # 分析本地文件 $ aichat -f document.pdf summarize
+    this # 处理目录 $ aichat -f ./project/ explain the code structure # 远程 URL $ aichat -f
+    https://example.com/article extract key points ```
   </Tab>
   <Tab title="AI 代理与工具">
-    通过函数调用连接外部工具，自动化复杂任务：
-
-    ```bash
-    # 使用 AI 代理执行多步骤任务
-    $ aichat --agent research "research the latest AI trends and create a summary"
-    ```
+    通过函数调用连接外部工具，自动化复杂任务： ```bash # 使用 AI 代理执行多步骤任务 $ aichat --agent
+    research "research the latest AI trends and create a summary" ```
   </Tab>
   <Tab title="模型比较">
-    通过内置的 LLM Arena 对比不同模型的表现：
-
-    ```bash
-    $ aichat --serve
-    # 访问 http://127.0.0.1:8000/arena?num=2
-    ```
+    通过内置的 LLM Arena 对比不同模型的表现： ```bash $ aichat --serve # 访问
+    http://127.0.0.1:8000/arena?num=2 ```
   </Tab>
 </Tabs>
 
@@ -102,7 +69,6 @@ AIChat 是一个功能全面的 LLM（大语言模型）命令行工具，集成
 ### 多模型支持
 
 支持 20+ LLM 提供商，包括 OpenAI、Claude、Gemini、Ollama、Groq、Azure-OpenAI、VertexAI、Bedrock、Github Models、Mistral、Deepseek、AI21、XAI Grok、Cohere、Perplexity、Cloudflare、OpenRouter、Ernie、Qianwen、Moonshot、ZhipuAI、MiniMax、Deepinfra、VoyageAI 以及任何兼容 OpenAI API 的提供商。
-
 统一接口提供一致的命令行体验，无需学习不同 API。
 
 ### 命令行模式 (CMD)
@@ -110,6 +76,7 @@ AIChat 是一个功能全面的 LLM（大语言模型）命令行工具，集成
 强大的一次性命令执行：
 
 ```bash
+
 # 基本对话
 $ aichat "What is the capital of France?"
 
@@ -130,7 +97,8 @@ $ aichat -f '`git diff`' "review these changes"
     提供 Tab 自动补全、多行输入支持、历史搜索功能、自定义按键绑定以及可配置的 REPL 界面。
   </Tab>
   <Tab title="常用命令">
-    `.help` 显示帮助信息，`.info` 显示当前配置，`.model` 切换模型，`.role` 使用预定义角色，`.session` 管理会话，`.file` 附加文件，`.clear` 清空上下文，`.exit` 退出。
+    `.help` 显示帮助信息，`.info` 显示当前配置，`.model` 切换模型，`.role`
+    使用预定义角色，`.session` 管理会话，`.file` 附加文件，`.clear` 清空上下文，`.exit` 退出。
   </Tab>
 </Tabs>
 
@@ -150,6 +118,7 @@ $ aichat -f '`git diff`' "review these changes"
 
 ```bash
 $ aichat --role code_reviewer -f main.rs
+
 # 或在 REPL 中
 aichat> .role code_reviewer
 ```
@@ -159,6 +128,7 @@ aichat> .role code_reviewer
 保持上下文连续性：
 
 ```bash
+
 # 创建会话
 $ aichat --session project_discussion
 
@@ -182,7 +152,7 @@ macros:
     .role code_reviewer
     .file %1
     Review this code for issues
-    
+
   doc_summary: |
     .file %1
     Create a concise summary
@@ -199,6 +169,7 @@ aichat> .macro code_review main.rs
 集成外部文档提升回答质量：
 
 ```bash
+
 # 索引文档
 $ aichat --rag-index ./knowledge_base
 
@@ -211,6 +182,7 @@ $ aichat --rag "What is our company policy on remote work?"
 连接外部工具扩展 LLM 能力。配置函数和工具可参考 https://github.com/sigoden/llm-functions。
 
 ```bash
+
 # 使用工具
 $ aichat --agent --tool web_search "find latest news about AI"
 ```
@@ -223,10 +195,15 @@ $ aichat --agent --tool web_search "find latest news about AI"
 $ aichat --serve
 
 # 可用端点:
+
 # - Chat Completions: http://127.0.0.1:8000/v1/chat/completions
+
 # - Embeddings: http://127.0.0.1:8000/v1/embeddings
+
 # - Rerank: http://127.0.0.1:8000/v1/rerank
+
 # - Playground: http://127.0.0.1:8000/playground
+
 # - Arena: http://127.0.0.1:8000/arena
 ```
 
@@ -247,137 +224,48 @@ curl -X POST -H "Content-Type: application/json" -d '{
 ## 安装方法
 
 <Tabs>
-  <Tab title="Cargo (Rust)">
-    ```bash
-    cargo install aichat
-    ```
-  </Tab>
-  <Tab title="Homebrew">
-    ```bash
-    brew install aichat
-    ```
-  </Tab>
-  <Tab title="Pacman (Arch)">
-    ```bash
-    pacman -S aichat
-    ```
-  </Tab>
-  <Tab title="Scoop (Windows)">
-    ```bash
-    scoop install aichat
-    ```
-  </Tab>
-  <Tab title="Termux (Android)">
-    ```bash
-    pkg install aichat
-    ```
-  </Tab>
+  <Tab title="Cargo (Rust)">```bash cargo install aichat ```</Tab>
+  <Tab title="Homebrew">```bash brew install aichat ```</Tab>
+  <Tab title="Pacman (Arch)">```bash pacman -S aichat ```</Tab>
+  <Tab title="Scoop (Windows)">```bash scoop install aichat ```</Tab>
+  <Tab title="Termux (Android)">```bash pkg install aichat ```</Tab>
   <Tab title="预编译二进制">
-    访问 [GitHub Releases](https://github.com/sigoden/aichat/releases) 下载对应平台的二进制文件，解压并添加到 `$PATH`。
-    
-    ```bash
-    # Linux/macOS 示例
-    tar -xzf aichat-*.tar.gz
-    sudo mv aichat /usr/local/bin/
-    chmod +x /usr/local/bin/aichat
-    ```
+    访问 [GitHub Releases](https://github.com/sigoden/aichat/releases)
+    下载对应平台的二进制文件，解压并添加到 `$PATH`。 ```bash # Linux/macOS 示例 tar -xzf
+    aichat-*.tar.gz sudo mv aichat /usr/local/bin/ chmod +x /usr/local/bin/aichat ```
   </Tab>
 </Tabs>
-
-验证安装：
-
-```bash
-aichat --version
-```
+验证安装： ```bash aichat --version ```
 
 ## 快速使用入门
 
 <Steps>
   <Step title="配置 API 密钥">
-    首次运行时，AIChat 会引导你配置 API 密钥：
-    
-    ```bash
-    $ aichat
-    ```
-    
-    或手动配置环境变量：
-    
-    ```bash
-    # OpenAI
-    export OPENAI_API_KEY="sk-..."
-    
-    # Claude (Anthropic)
-    export ANTHROPIC_API_KEY="sk-ant-..."
-    
-    # Gemini (Google)
-    export GEMINI_API_KEY="..."
-    
-    # Ollama (本地运行，无需 API 密钥)
-    # 确保 Ollama 服务运行中
-    ```
-    
-    配置文件位置: `~/.config/aichat/config.yaml`
+    首次运行时，AIChat 会引导你配置 API 密钥： ```bash $ aichat ``` 或手动配置环境变量： ```bash #
+    OpenAI export OPENAI_API_KEY="sk-..." # Claude (Anthropic) export ANTHROPIC_API_KEY="sk-ant-..."
+    # Gemini (Google) export GEMINI_API_KEY="..." # Ollama (本地运行，无需 API 密钥) # 确保 Ollama
+    服务运行中 ``` 配置文件位置: `~/.config/aichat/config.yaml`
   </Step>
-  
+
   <Step title="基本使用">
-    简单对话：
-    
-    ```bash
-    $ aichat "Explain quantum computing in simple terms"
-    ```
-    
-    使用管道：
-    
-    ```bash
-    $ echo "Hello, world!" | aichat "translate to French"
-    ```
-    
-    文件输入：
-    
-    ```bash
-    $ aichat -f document.txt "summarize this document"
-    ```
+    简单对话： ```bash $ aichat "Explain quantum computing in simple terms" ``` 使用管道： ```bash $
+    echo "Hello, world!" | aichat "translate to French" ``` 文件输入： ```bash $ aichat -f
+    document.txt "summarize this document" ```
   </Step>
-  
+
   <Step title="启动 REPL">
-    ```bash
-    $ aichat
-    
-    # 进入交互模式
-    aichat> What is machine learning?
-    aichat> .file example.py -- explain this code
-    aichat> .model gpt-4
-    aichat> .exit
-    ```
+    ```bash $ aichat # 进入交互模式 aichat> What is machine learning? aichat> .file example.py --
+    explain this code aichat> .model gpt-4 aichat> .exit ```
   </Step>
-  
+
   <Step title="选择模型">
-    查看可用模型：
-    
-    ```bash
-    $ aichat --list-models
-    ```
-    
-    指定模型：
-    
-    ```bash
-    $ aichat --model claude:claude-3-5-sonnet "your question"
-    
-    # 或在 REPL 中
-    aichat> .model gpt-4o
-    ```
+    查看可用模型： ```bash $ aichat --list-models ``` 指定模型： ```bash $ aichat --model
+    claude:claude-3-5-sonnet "your question" # 或在 REPL 中 aichat> .model gpt-4o ```
   </Step>
-  
+
   <Step title="使用会话">
-    ```bash
-    # 创建持久会话
-    $ aichat --session my_project
-    aichat> Let's discuss the architecture
-    aichat> .exit
-    
-    # 恢复会话
-    $ aichat --session my_project
-    aichat> Continue from where we left off
+    ```bash # 创建持久会话 $ aichat --session my_project aichat> Let's discuss the architecture
+    aichat> .exit # 恢复会话 $ aichat --session my_project aichat> Continue from where we left off
     ```
   </Step>
 </Steps>
@@ -387,6 +275,7 @@ aichat --version
 ### 代码审查
 
 ```bash
+
 # 审查 Git 更改
 $ git diff | aichat --role code_reviewer "review these changes"
 
@@ -397,20 +286,23 @@ $ aichat --role code_reviewer -f src/main.rs
 ### Shell 助手
 
 ```bash
+
 # 获取命令建议
 $ aichat "list all running docker containers"
+
 # 输出: docker ps
-
 $ aichat "find files modified in last 7 days"
-# 输出: find . -mtime -7
 
+# 输出: find . -mtime -7
 $ aichat "compress all logs into archive"
+
 # 输出: tar -czf logs.tar.gz *.log
 ```
 
 ### 数据分析
 
 ```bash
+
 # 分析 CSV 文件
 $ aichat -f sales_data.csv "calculate total revenue and top 5 products"
 
@@ -421,6 +313,7 @@ $ tail -n 1000 app.log | aichat "summarize error patterns"
 ### 文档处理
 
 ```bash
+
 # 总结多个文档
 $ aichat -f doc1.pdf -f doc2.pdf "create a combined summary"
 
@@ -434,6 +327,7 @@ $ aichat -f ./src/ "describe the project architecture"
 ### 多模态输入
 
 ```bash
+
 # 图片描述
 $ aichat -f image.jpg "describe what you see"
 
@@ -446,12 +340,8 @@ $ aichat -f diagram.png -f requirements.txt "compare the diagram with requiremen
 ### 配置文件位置
 
 <Tabs>
-  <Tab title="Linux/macOS">
-    `~/.config/aichat/config.yaml`
-  </Tab>
-  <Tab title="Windows">
-    `%APPDATA%\aichat\config.yaml`
-  </Tab>
+  <Tab title="Linux/macOS">`~/.config/aichat/config.yaml`</Tab>
+  <Tab title="Windows">`%APPDATA%\aichat\config.yaml`</Tab>
 </Tabs>
 
 ### 基本配置示例
@@ -473,7 +363,7 @@ save_session: true
 auto_copy: true
 
 # 主题
-light_theme: true  # 或 false 使用暗色主题
+light_theme: true # 或 false 使用暗色主题
 
 # 按键绑定
 keybindings:
@@ -487,10 +377,10 @@ keybindings:
 clients:
   - type: openai
     api_key: sk-...
-    
+
   - type: claude
     api_key: sk-ant-...
-    
+
   - type: ollama
     api_base: http://localhost:11434
 ```
@@ -500,6 +390,7 @@ clients:
 ### 命令行选项
 
 ```bash
+
 # 基本使用
 aichat [OPTIONS] [TEXT]...
 
@@ -517,23 +408,24 @@ aichat [OPTIONS] [TEXT]...
 
 ### REPL 命令
 
-| 命令 | 说明 |
-|------|------|
-| `.help` | 显示帮助 |
-| `.info` | 显示系统信息 |
-| `.model <MODEL>` | 切换模型 |
-| `.role <ROLE>` | 切换角色 |
-| `.session [NAME]` | 管理会话 |
-| `.file <PATH>` | 附加文件 |
-| `.clear` | 清除上下文 |
-| `.copy` | 复制最后的回复 |
-| `.exit` | 退出 REPL |
+| 命令              | 说明           |
+| ----------------- | -------------- |
+| `.help`           | 显示帮助       |
+| `.info`           | 显示系统信息   |
+| `.model <MODEL>`  | 切换模型       |
+| `.role <ROLE>`    | 切换角色       |
+| `.session [NAME]` | 管理会话       |
+| `.file <PATH>`    | 附加文件       |
+| `.clear`          | 清除上下文     |
+| `.copy`           | 复制最后的回复 |
+| `.exit`           | 退出 REPL      |
 
 ## 高级功能
 
 ### 环境变量
 
 ```bash
+
 # API 密钥
 OPENAI_API_KEY
 ANTHROPIC_API_KEY
@@ -554,8 +446,8 @@ HTTPS_PROXY                   HTTP 代理
 在配置文件中：
 
 ```yaml
-repl_prompt: "🤖 {model} >"
-left_prompt: "{user}@{session} "
+repl_prompt: '🤖 {model} >'
+left_prompt: '{user}@{session} '
 ```
 
 ### 性能优化
@@ -577,23 +469,14 @@ cache_dir: ~/.cache/aichat
 ### 官方文档
 
 [Chat-REPL 指南](https://github.com/sigoden/aichat/wiki/Chat-REPL-Guide) - 交互式对话环境使用指南
-
 [命令行指南](https://github.com/sigoden/aichat/wiki/Command-Line-Guide) - 命令行模式完整参考
-
 [角色指南](https://github.com/sigoden/aichat/wiki/Role-Guide) - 自定义角色配置
-
 [宏命令指南](https://github.com/sigoden/aichat/wiki/Macro-Guide) - 宏命令创建与使用
-
 [RAG 指南](https://github.com/sigoden/aichat/wiki/RAG-Guide) - 检索增强生成配置
-
 [环境变量](https://github.com/sigoden/aichat/wiki/Environment-Variables) - 环境变量参考
-
 [配置指南](https://github.com/sigoden/aichat/wiki/Configuration-Guide) - 配置文件详解
-
 [自定义主题](https://github.com/sigoden/aichat/wiki/Custom-Theme) - 主题定制
-
 [自定义 REPL 提示符](https://github.com/sigoden/aichat/wiki/Custom-REPL-Prompt) - 提示符配置
-
 [常见问题 (FAQ)](https://github.com/sigoden/aichat/wiki/FAQ) - 常见问题解答
 
 ### 相关项目
@@ -603,54 +486,27 @@ cache_dir: ~/.cache/aichat
 ### 社区与支持
 
 [GitHub Issues](https://github.com/sigoden/aichat/issues) - 问题反馈
-
 [GitHub Discussions](https://github.com/sigoden/aichat/discussions) - 讨论交流
 
 ## 故障排查
 
 <Tabs>
   <Tab title="API 密钥未设置">
-    错误信息：`Error: Missing API key`
-    
-    解决方案：
-    
-    ```bash
-    export OPENAI_API_KEY="your-api-key"
-    # 或在配置文件中设置
-    ```
+    错误信息：`Error: Missing API key` 解决方案： ```bash export OPENAI_API_KEY="your-api-key" #
+    或在配置文件中设置 ```
   </Tab>
-  
+
   <Tab title="模型不可用">
-    检查可用模型：
-    
-    ```bash
-    aichat --list-models
-    
-    # 确认提供商配置正确
-    aichat .info
-    ```
+    检查可用模型： ```bash aichat --list-models # 确认提供商配置正确 aichat .info ```
   </Tab>
-  
+
   <Tab title="网络连接问题">
-    设置代理：
-    
-    ```bash
-    export HTTPS_PROXY="http://proxy.example.com:8080"
-    
-    # 或在配置文件中:
-    proxy: "http://proxy.example.com:8080"
-    ```
+    设置代理： ```bash export HTTPS_PROXY="http://proxy.example.com:8080" # 或在配置文件中: proxy:
+    "http://proxy.example.com:8080" ```
   </Tab>
-  
+
   <Tab title="Ollama 连接失败">
-    确保 Ollama 运行中：
-    
-    ```bash
-    ollama serve
-    
-    # 检查端口
-    curl http://localhost:11434/api/tags
-    ```
+    确保 Ollama 运行中： ```bash ollama serve # 检查端口 curl http://localhost:11434/api/tags ```
   </Tab>
 </Tabs>
 
@@ -667,15 +523,9 @@ AIChat 采用双许可协议：MIT License 和 Apache License 2.0。您可以选
 ## 总结
 
 AIChat 是一个强大、灵活的命令行 LLM 工具，具有以下优势：
-
 **统一接口** - 通过单一 CLI 访问 20+ LLM 提供商
-
 **功能全面** - Shell 助手、REPL、RAG、工具集成、代理模式
-
 **高度可定制** - 角色、宏、主题、按键绑定
-
 **开发者友好** - 完美融入 Unix 工作流，支持管道和脚本
-
 **开源免费** - MIT/Apache 双许可，活跃的社区支持
-
 无论你是需要快速原型开发、自动化任务，还是深度研究 LLM 能力，AIChat 都是理想的命令行工具选择。

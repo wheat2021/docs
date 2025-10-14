@@ -1,0 +1,197 @@
+# Mintlify 快速入门指南
+
+## 应用总览
+
+### 为开发者打造的现代化文档平台
+
+技术文档的撰写和维护往往令开发团队头疼：传统文档工具要么配置繁琐、要么界面陈旧，更新流程复杂且耗时。开发者需要在编写代码和维护文档之间不断切换，导致文档质量参差不齐，最终影响用户体验和产品采用率。
+
+Mintlify 是一个专为开发者设计的智能文档平台，采用 Markdown 驱动、开箱即用的现代化设计。它的核心价值在于：**让开发团队能够在几分钟内部署一个美观、专业的文档网站，并通过 Git 工作流无缝集成到现有开发流程中**。无需学习复杂的 CMS 系统，也不需要前端设计技能，只需用熟悉的 Markdown 编写内容即可。
+
+Mintlify 主要面向 **SaaS 公司、开源项目和 API 产品团队**。典型使用场景包括：为新产品快速搭建产品文档网站、为开源项目创建易于维护的贡献指南和 API 参考、为技术团队建立内部知识库。它的工作原理很简单：你在 GitHub 仓库中用 Markdown 编写文档，通过简单的 JSON 配置文件定义导航结构，Mintlify 会自动将其渲染为一个响应式、搜索友好的现代化文档网站，并在每次代码推送时自动更新。
+
+与 GitBook、Docusaurus 等工具相比，Mintlify 的核心优势在于**零配置启动**和**设计精美**。GitBook 需要付费才能使用自定义域名和高级功能，Docusaurus 虽然功能强大但需要深入了解 React 和复杂的配置。Mintlify 则提供开箱即用的专业设计、内置 AI 搜索能力以及即时部署。但需要注意的是，Mintlify 作为托管服务，自定义程度不如自托管方案灵活，且免费版有一定使用限制。对于需要极致定制或完全控制的团队，Docusaurus 可能更合适；但对于希望快速上线、专注内容而非技术细节的团队，Mintlify 是理想选择。
+
+---
+
+## 安装准备
+
+### 系统要求
+- **Node.js**: 18.0 或更高版本
+- **npm**: 9.0 或更高版本
+- **Git**: 用于版本控制和部署
+- **GitHub 账号**: 用于托管文档仓库和自动部署
+
+### 安装 Mintlify CLI
+
+Mintlify CLI 是本地预览和开发文档的命令行工具。打开终端，运行以下命令：
+
+```bash
+npm install -g mintlify
+```
+
+**验证安装**：
+
+```bash
+mintlify --version
+```
+
+如果显示版本号（如 `v4.x.x`），说明安装成功。
+
+---
+
+## 快速上手：5 分钟创建你的第一个文档站点
+
+### 步骤 1：注册账号并初始化项目
+
+1. 访问 [Mintlify 官网](https://mintlify.com/start)，点击「Start for Free」创建账号
+2. 完成简短的引导流程后，Mintlify 会自动为你创建一个演示文档站点
+3. 你将获得一个临时 URL，格式为：`https://<your-project-name>.mintlify.app`
+
+**预期结果**：在浏览器中打开该 URL，你会看到一个包含示例内容的文档网站。
+
+---
+
+### 步骤 2：使用 GitHub 模板创建你的文档仓库
+
+1. 访问 [Mintlify Starter 仓库](https://github.com/mintlify/starter)
+2. 点击绿色的「Use this template」按钮
+3. 填写你的仓库名称（如 `my-docs`），选择公开或私有
+4. 点击「Create repository」
+
+**作用说明**：这个模板包含了完整的文档结构示例，包括配置文件、导航设置和示例页面，可以直接在此基础上修改。
+
+---
+
+### 步骤 3：将仓库克隆到本地并启动预览
+
+在终端中执行以下命令：
+
+```bash
+# 克隆你的仓库（替换为你的仓库地址）
+git clone https://github.com/your-username/my-docs.git
+
+# 进入项目目录
+cd my-docs
+
+# 启动本地预览服务器
+mintlify dev
+```
+
+**预期结果**：终端显示 `✓ Ready on http://localhost:3000`，浏览器自动打开本地预览页面。
+
+---
+
+### 步骤 4：修改内容并查看实时变化
+
+1. 用你喜欢的代码编辑器（如 VS Code）打开项目文件夹
+2. 找到 `index.mdx` 文件，这是首页内容
+3. 将文件顶部的 `title` 字段改为「Hello World」：
+
+```mdx
+---
+title: 'Hello World'
+description: '欢迎来到我的文档站点'
+---
+
+## 这是我的第一个 Mintlify 文档！
+
+你可以在这里编写任何内容...
+```
+
+4. 保存文件，查看浏览器中的实时更新（无需刷新）
+
+**作用说明**：Mintlify CLI 提供热重载功能，每次保存文件后，浏览器会自动更新内容，让你立即看到修改效果。
+
+---
+
+### 步骤 5：连接 GitHub 并自动部署
+
+1. 登录 [Mintlify Dashboard](https://dashboard.mintlify.com)
+2. 进入「Settings」→「GitHub」，点击「Install GitHub App」
+3. 授权 Mintlify 访问你刚创建的文档仓库
+4. 回到本地项目，提交并推送你的修改：
+
+```bash
+git add .
+git commit -m "Update homepage title"
+git push origin main
+```
+
+**预期结果**：几秒钟后，访问你的 `<your-project-name>.mintlify.app` URL，会看到线上网站已自动更新。
+
+---
+
+## 核心功能说明
+
+### 1. Markdown 驱动的内容编辑
+Mintlify 使用增强版 Markdown（MDX），支持标准 Markdown 语法加上交互式组件。你可以像写普通文档一样编写内容，同时插入代码块、提示框、选项卡等丰富元素。
+
+**示例**：
+<Tip>这是一个提示框，用于突出重要信息</Tip>
+
+<CodeGroup>
+```bash npm
+npm install package-name
+```
+
+```bash yarn
+yarn add package-name
+```
+</CodeGroup>
+
+
+### 2. 配置文件驱动的导航结构
+项目根目录的 `mint.json` 文件控制整个网站的外观和导航。你可以定义侧边栏分组、顶部导航、品牌颜色等，无需编写任何前端代码。
+
+**关键配置示例**：
+```json
+{
+  "name": "我的产品文档",
+  "navigation": [
+    {
+      "group": "快速开始",
+      "pages": ["index", "quickstart"]
+    },
+    {
+      "group": "API 参考",
+      "pages": ["api/authentication", "api/endpoints"]
+    }
+  ]
+}
+```
+
+### 3. Git 工作流自动部署
+一旦连接 GitHub App，任何推送到默认分支（通常是 `main`）的改动都会自动触发部署。这意味着团队成员可以通过熟悉的 Pull Request 流程协作编写文档，合并后立即上线。
+
+---
+
+## 参考资源
+
+### 官方文档
+**[Mintlify 完整文档](https://mintlify.com/docs)** - 涵盖所有高级功能、配置选项和 API 集成指南的权威参考。
+
+### 社区教程
+**[Setting up a Documentation Site with Mintlify](https://kenudeh.hashnode.dev/setting-up-a-docs-site-with-mintlify)** - 一篇详细的博客文章，通过实际案例演示从零搭建文档站点的完整过程。
+
+### GitHub 仓库
+**[Mintlify Starter 模板](https://github.com/mintlify/starter)** - 官方提供的起始模板，包含各种组件使用示例和最佳实践。
+
+### 视频入门
+**[YouTube 搜索「Mintlify Tutorial」](https://www.youtube.com/results?search_query=mintlify+tutorial)** - 社区创作的视频教程，适合视觉学习者快速了解操作流程。
+
+### 获取帮助
+**[Mintlify Discord 社区](https://mintlify.com/community)** - 加入官方 Discord 频道，与其他用户交流经验并获得团队支持。
+
+---
+
+## 下一步建议
+
+完成快速上手后，你可以：
+
+- **自定义外观**：在 `mint.json` 中修改品牌颜色、logo 和 favicon
+- **添加更多页面**：创建新的 `.mdx` 文件并更新导航配置
+- **集成 API 文档**：使用 OpenAPI/Swagger 规范自动生成 API 参考页面
+- **设置自定义域名**：在 Dashboard 中绑定你自己的域名（如 `docs.yourcompany.com`）
+
+祝你使用愉快！
