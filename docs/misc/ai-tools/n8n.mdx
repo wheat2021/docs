@@ -1,0 +1,215 @@
+---
+title: 'n8n 自动化工作流平台'
+---
+
+## 应用总览
+
+<Tabs>
+  <Tab title="定位与价值">
+    n8n（发音为
+    n-eight-n）是一个**工作流自动化平台**，专门解决企业和个人在日常工作中面临的**重复性任务和跨应用数据连接**问题。它诞生于对传统自动化工具限制的不满，采用fair-code许可证，为用户提供了在数据隐私和功能扩展方面的完全控制权。
+    作为一个**可视化的低代码/无代码平台**，n8n通过节点连接的方式让任何人都能构建复杂的自动化工作流程，无需编程基础即可将各种应用、服务和API串联起来，实现数据的自动化处理和传输。其核心价值在于**"连接一切，自动化一切"**。
+  </Tab>
+
+  <Tab title="用户与场景">
+    **主要用户群体**包括中小企业的运营和营销团队、开发者和技术团队、自由职业者和内容创作者，以及需要数据隐私控制的企业。
+    **营销自动化**是最典型的应用场景，包括社交媒体内容自动发布、客户数据同步、邮件营销流程等。另一个重要场景是**业务流程优化**，涵盖订单处理、客户支持、发票管理、报告生成等日常业务流程。
+    n8n的工作原理简单直观：通过可视化界面创建"工作流"，每个工作流由多个"节点"组成，节点之间通过连线传递数据。用户只需拖拽节点、配置参数，即可实现从简单的数据同步到复杂的AI驱动流程的各种自动化任务。
+  </Tab>
+
+  <Tab title="对比与权衡">
+    **与主流同类工具对比**：相比Zapier，n8n提供自托管选项和更强的定制能力，而Zapier更注重易用性和集成数量（6000+
+    vs
+    1000+）；相比Make.com，n8n支持开源和更灵活的定价模式，Make.com在可视化界面和模板丰富度方面更胜一筹。
+    <Columns cols={2}>
+      <Card title="核心优势">
+        <Tip> **数据主权**：支持自托管，完全控制数据安全和隐私</Tip>
+        <Tip> **成本效益**：免费的社区版本，按工作流收费而非按任务数</Tip>
+        <Tip> **AI集成**：深度整合LangChain，支持高级AI工作流和智能代理</Tip>
+      </Card>
+
+      <Card title="主要局限">
+        <Danger> **学习曲线**：相比Zapier需要更多时间掌握 </Danger>
+        <Danger> **集成数量**：原生集成相对较少（约1000个 vs Zapier的6000+）</Danger>
+        <Danger> **技术要求**：自托管需要一定的技术能力</Danger>
+      </Card>
+    </Columns>
+  </Tab>
+</Tabs>
+
+## 前置准备
+
+<Tabs>
+  <Tab title="Cloud 版本">
+    <Columns cols={2}>
+      <Card title="优势">
+        1. **零配置启动**：无需任何技术设置，注册即用 2.
+        **自动更新维护**：官方团队负责更新、备份和安全维护 3.
+        **高可用性保障**：企业级基础设施，99.9%服务稳定性 4.
+        **协作功能完整**：内置团队协作、权限管理等高级功能
+      </Card>
+
+      <Card title="劣势">
+        - **数据存储限制**：数据存储在第三方服务器，无法完全控制 -
+        **功能限制**：部分高级定制功能仅限企业版 - **网络依赖**：需要稳定的互联网连接才能使用 -
+        **成本考虑**：超出免费额度后需要付费订阅
+      </Card>
+
+      <Card title="前置条件">
+        **基本要求**：有效的邮箱地址用于注册账号
+        **浏览器支持**：现代浏览器（Chrome、Firefox、Safari、Edge） **网络连接**：稳定的互联网连接
+        **无技术门槛**：适合所有技术水平的用户
+      </Card>
+
+      <Card title="安装步骤">
+        **第一步**：访问 [n8n Cloud注册页面](https://app.n8n.cloud/register)
+        **第二步**：填写邮箱地址和密码完成注册 **第三步**：验证邮箱并激活账号
+        **第四步**：登录后直接进入工作台开始使用 **验证成功**：看到欢迎页面和模板库即表示准备就绪
+      </Card>
+    </Columns>
+  </Tab>
+
+  <Tab title="Docker 部署">
+    <Columns cols={2}>
+      <Card title="优势">
+        **环境隔离**：独立的容器环境，避免系统冲突 **快速部署**：一键启动，支持水平扩展
+        **版本控制**：精确的版本管理，支持回滚 **跨平台兼容**：支持Windows、macOS、Linux所有平台
+      </Card>
+
+      <Card title="劣势">
+        **Docker依赖**：需要安装和配置Docker环境 **资源消耗**：容器运行需要额外的系统资源
+        **网络配置**：可能需要配置端口映射和防火墙 **学习成本**：需要基础的Docker操作知识
+      </Card>
+
+      <Card title="前置条件">
+        **Docker环境**：Docker Desktop (推荐) 或 Docker Engine + Docker Compose **系统要求**：4GB+
+        RAM，20GB+ 可用磁盘空间 **网络权限**：能够从Docker Hub拉取镜像
+        **技术水平**：基础的命令行操作能力
+      </Card>
+
+      <Card title="安装步骤">
+        **第一步**：安装Docker Desktop或Docker Engine ``` # 验证Docker安装 docker --version ```
+        **第二步**：创建数据卷并启动n8n容器 ``` docker volume create n8n_data docker run -it --rm
+        --name n8n -p 5678:5678 \ -e GENERIC_TIMEZONE="Asia/Shanghai" \ -e TZ="Asia/Shanghai" \ -v
+        n8n_data:/home/node/.n8n \ docker.n8n.io/n8nio/n8n ``` **第三步**：访问
+        `http://localhost:5678` 进入n8n界面 **验证成功**：浏览器中看到n8n登录页面即表示部署成功
+      </Card>
+    </Columns>
+  </Tab>
+
+  <Tab title="npm 安装">
+    <Columns cols={2}>
+      <Card title="优势">
+        **原生性能**：直接运行在系统上，性能最优 **完全控制**：可以深度定制和修改源代码
+        **开发友好**：便于插件开发和调试 **资源效率**：无容器开销，资源利用率最高
+      </Card>
+
+      <Card title="劣势">
+        **环境依赖**：严格的Node.js版本要求 **系统污染**：直接安装可能与其他应用冲突
+        **配置复杂**：需要手动管理依赖和环境变量 **维护成本**：更新、备份需要手动操作
+      </Card>
+
+      <Card title="前置条件">
+        **Node.js环境**：Node.js 20.19 - 24.x 版本（严格要求） **npm包管理**：npm 或 yarn 包管理工具
+        **系统权限**：全局安装需要管理员权限 **技术能力**：熟悉命令行和Node.js生态
+      </Card>
+
+      <Card title="安装步骤">
+        **第一步**：验证Node.js版本 ``` node --version # 确保在20.19-24.x范围内 npm --version #
+        确保npm正常工作 ``` **第二步**：全局安装n8n ``` npm install n8n -g # 或安装特定版本 npm
+        install -g n8n@1.114.3 ``` **第三步**：启动n8n服务 ``` n8n start # 或简化命令 n8n ```
+        **验证成功**：终端显示启动信息，访问 `http://localhost:5678` 可正常打开
+      </Card>
+    </Columns>
+  </Tab>
+</Tabs>
+
+## 核心功能快速上手
+
+<AccordionGroup>
+  <Accordion title="使用模板创建第一个工作流">
+    **价值说明**：通过现成模板快速体验n8n的核心工作原理，了解节点连接和数据流转概念。 **操作指引**：
+    进入n8n主界面，点击 **Templates** → 搜索 "Very quick quickstart" 或直接访问模板链接 → 点击 **Use
+    this workflow** 导入到你的工作台 → 点击 **Execute Workflow** 按钮运行工作流
+    **预期结果**：成功获取示例客户数据并通过Edit
+    Fields节点进行数据转换，可以在执行结果中看到格式化的客户信息。
+  </Accordion>
+
+  <Accordion title="创建简单的数据连接工作流">
+    **价值说明**：学会手动创建工作流，掌握节点添加、配置和连接的基本技能。 **操作指引**： 点击 **New
+    workflow** 创建空白工作流 → 点击画布上的 **+** 添加 **Schedule Trigger** 节点（设置每小时触发）
+    → 连接一个 **HTTP Request** 节点，获取公开API数据 → 添加 **Set** 节点提取特定字段 →
+    保存并执行工作流 ``` # HTTP Request 节点配置 URL: https://jsonplaceholder.typicode.com/posts/1
+    Method: GET ``` **预期结果**：定时获取并处理外部API数据，在执行历史中可查看每次运行的详细结果。
+  </Accordion>
+
+  <Accordion title="构建AI内容处理流程">
+    **价值说明**：体验n8n的AI能力，了解如何将AI模型集成到自动化流程中。 **操作指引**： 使用 **Chat
+    Trigger** 节点创建聊天触发器 → 添加 **OpenAI Chat Model** 节点（需要OpenAI API密钥） → 配置
+    **Basic LLM Chain** 连接聊天模型 → 设置简单的提示词模板，如文本摘要或翻译 → 测试AI工作流的响应
+    **预期结果**：创建一个可交互的AI助手，能够响应用户输入并返回AI生成的内容。
+  </Accordion>
+
+  <Accordion title="自动化邮件通知系统">
+    **价值说明**：学会设置实用的业务自动化流程，实现条件判断和通知功能。 **操作指引**： 设置
+    **Webhook** 节点作为触发器 → 添加 **IF** 节点设置条件判断（如数据值大于某个阈值） → 配置
+    **Gmail** 或 **Email** 节点发送通知邮件 → 设置不同分支处理不同的业务逻辑 → 测试完整的通知流程
+    **预期结果**：建立一个能够根据输入数据自动判断并发送相应邮件通知的智能系统。
+  </Accordion>
+
+  <Accordion title="多平台数据同步工作流">
+    **价值说明**：掌握复杂工作流的构建，实现跨平台数据的自动同步和处理。 **操作指引**： 创建
+    **Google Sheets** 触发器监控表格变化 → 添加数据验证和清理节点 → 配置多个并行分支同步到不同平台 →
+    添加错误处理和重试机制
+    <Columns>
+      <Card title="Airtable集成">
+        配置 **Airtable** 节点用于结构化数据存储，支持复杂的数据关系和字段类型。
+      </Card>
+
+      <Card title="Slack通知">
+        设置 **Slack** 节点向团队频道发送实时数据变更通知，保持团队同步。
+      </Card>
+
+      <Card title="Webhook推送">
+        使用 **Webhook** 节点向其他系统推送处理后的数据，实现系统间的无缝集成。
+      </Card>
+    </Columns>
+    **预期结果**：构建一个健壮的数据同步系统，能够自动处理数据变更并同步到多个平台，包含完善的错误处理机制。
+  </Accordion>
+</AccordionGroup>
+
+## 参考资源
+
+<Tabs>
+  <Tab title="官方文档">
+    <Card title="完整功能参考">
+      [n8n官方文档](https://docs.n8n.io) - 包含完整的功能说明、API参考和最佳实践指南
+    </Card>
+
+    <Card title="结构化学习">
+      [学习路径指南](https://docs.n8n.io/learning-path/) - 为不同技术背景用户设计的结构化学习计划
+    </Card>
+  </Tab>
+
+  <Tab title="社区资源">
+    <Card title="开源代码">
+      [GitHub源码仓库](https://github.com/n8n-io/n8n) - 完整的开源代码、问题反馈和功能请求
+    </Card>
+
+    <Card title="用户交流">
+      [官方社区论坛](https://community.n8n.io/) - 活跃的用户社区，提供技术支持和最佳实践分享
+    </Card>
+
+    <Card title="在线代码阅读">
+      [zread在线阅读](https://zread.ai/github/n8n-io/n8n) -
+      便捷的源码在线浏览工具，支持快速定位和搜索
+    </Card>
+  </Tab>
+
+  <Tab title="视频教程">
+    <Card title="官方视频教程">
+      [n8n官方YouTube频道](https://www.youtube.com/@n8n-io) -
+      从入门到高级的完整教程系列，包含实际案例演示
+    </Card>
+  </Tab>
+</Tabs>

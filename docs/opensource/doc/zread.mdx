@@ -1,0 +1,208 @@
+---
+title: "Zread - github项目阅读神器"
+---
+
+## 全面总览
+
+<Tabs>
+  <Tab title="Zread 是什么？">
+      <Card title="定位" >
+        智谱 AI 推出的 AI 驱动 GitHub 项目阅读神器。
+      </Card>
+      <Card title="核心价值">
+        解决文档缺失、代码复杂、上手困难等痛点，一键生成结构化交互文档。
+      </Card>
+      <Card title="技术基础">
+        依托自研 GLM-4.5 大模型，实现代码结构深度分析与知识萃取。
+      </Card>
+      <Card title="目标人群">
+        需要快速上手 GitHub 项目的工程师、学习者、技术写作者及语言壁垒用户。
+      </Card>
+      <Card title="本质优势">
+        无需逐行读代码，即刻掌握项目架构、逻辑与设计思想，几分钟读懂项目。
+      </Card>
+  </Tab>
+  <Tab title="与同类产品对比">
+      <Card title="VS DeepWiki">
+        Zread 支持中文与热门项目索引。
+      </Card>
+      <Card title="VS Copilot/Cursor">
+        Zread 专注“项目理解”，Copilot 偏重“代码生成”，两者互补。
+      </Card>
+      <Card title="自动化可视化">
+        自动生成架构图、调用链，支持文件路径与行数标注。
+      </Card>
+      <Card title="局限与风险">
+        依赖代码规范与完整性，对极度无文档项目支持有限。
+      </Card>
+  </Tab>
+</Tabs>
+
+## 前置准备
+    <Columns cols={3}>
+      <Card title="仓库链接">
+        需要阅读的有效的 GitHub 仓库链接（公开或有权限的私有库）
+      </Card>
+      <Card title="启动方式">
+        无需注册，无需安装客户端，访问 <a href="https://zread.ai">https://zread.ai</a> 即可体验。
+      </Card>
+      <Card title="授权说明">
+        首次使用无需授权 GitHub，解读私有仓库时可后续授权 GitHub 账号。
+      </Card>
+    </Columns>
+
+## 快速上手
+
+<Tabs>
+  <Tab title="标准使用流程">
+    <Steps>
+      <Step title="1. 访问 Zread 官网">
+        打开浏览器，访问 <a href="https://zread.ai">https://zread.ai</a>，首页中部为搜索框“你想知道什么?”。
+      </Step>
+      <Step title="2. 粘贴 GitHub 仓库链接">
+        <Columns>
+          <Card title="复制项目链接">
+            复制所需 GitHub 项目的完整 URL。例：<code>https://github.com/yhirose/cpp-httplib</code>
+          </Card>
+          <Card title="粘贴与搜索">
+            粘贴到首页搜索框，点击搜索/回车。
+          </Card>
+          <Card title="小技巧">
+            只需将 <code>github.com</code> 替换为 <code>zread.ai</code>，即可直达项目解读页面。例如 <code>https://zread.ai/yhirose/cpp-httplib</code>。
+          </Card>
+        </Columns>
+      </Step>
+      <Step title="3. 等待 AI 生成文档">
+        <Columns>
+          <Card title="自动分析">
+            Zread 自动分析项目，数秒至几十秒完成（视项目大小/复杂度）。
+          </Card>
+          <Card title="加载提示">
+            期间显示明显加载提示。
+          </Card>
+        </Columns>
+      </Step>
+      <Step title="4. 浏览可视化交互文档">
+        <Columns>
+          <Card title="左侧导航栏">
+            完整文档目录（概述、快速上手、深入了解、技术参考等）。
+          </Card>
+          <Card title="中间内容区">
+            详细展示项目介绍、架构图、代码示例等核心信息。
+          </Card>
+          <Card title="右侧功能区">
+            Ask AI 智能问答、社区讨论、动态信息。
+          </Card>
+          <Card title="输出内容">
+            项目功能描述、自动架构图、安装说明、模块解析（含路径/行数）。
+          </Card>
+        </Columns>
+      </Step>
+      <Step title="5. 使用 Ask AI 深度提问">
+        <Columns>
+          <Card title="提问方式">
+            右侧 Ask AI 区域可输入任意技术问题，如 <code>这个库如何处理 HTTPS 请求?</code>
+          </Card>
+          <Card title="智能响应">
+            AI（GLM-4.5/Claude-4-Sonnet）基于代码上下文与联网搜索，精准响应并补充答案。
+          </Card>
+          <Card title="流程效率">
+            完整流程不到 5 分钟即可快速理解开放项目。
+          </Card>
+        </Columns>
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="三栏结构详情">
+    <Columns>
+      <Card title="左侧导航栏" icon="list">
+        完整章节索引，便于跳转快速定位。
+      </Card>
+      <Card title="中间内容区" icon="book">
+        项目介绍、架构图、关键代码块、数据结构与核心逻辑说明。
+      </Card>
+      <Card title="右侧功能区" icon="robot">
+        Ask AI 智能问答区、社区最新讨论/项目动态快速查看。
+      </Card>
+    </Columns>
+  </Tab>
+</Tabs>
+
+## 核心功能简介
+
+<Columns>
+  <Card title="一键生成项目文档" icon="lightbulb">
+    <Columns>
+      <Card title="结构化分析">
+        提取 README/代码结构，分析调用关系与架构层级。
+      </Card>
+      <Card title="完整指南">
+        自动生成包含架构、模块说明、设计模式的完整指南。
+      </Card>
+      <Card title="三栏导航">
+        三栏导航设计，支持多维索引与高效跳转。
+      </Card>
+    </Columns>
+  </Card>
+  <Card title="Ask AI 智能问答" icon="chat">
+    <Columns>
+      <Card title="模型驱动">
+        GLM-4.5 与 Claude-4-Sonnet 两大模型驱动。
+      </Card>
+      <Card title="精准问答">
+        问答支持深度上下文理解，精准定位与解释函数/调用链等复杂问题。
+      </Card>
+      <Card title="内容补充">
+        可联网补充内容，帮助快速消除知识盲区。
+      </Card>
+    </Columns>
+  </Card>
+  <Card title="可视化代码架构" icon="share">
+    <Columns>
+      <Card title="自动生成">
+        自动生成项目架构图/模块关系图/数据流图，全部可导出。
+      </Card>
+      <Card title="标准格式">
+        采用 Mermaid 等标准格式，便于协作与传播。
+      </Card>
+    </Columns>
+  </Card>
+</Columns>
+
+## 参考资源
+
+<Columns>
+  <Card title="官方网站" icon="link">
+    <Columns>
+      <Card title="Zread 主页">
+        <a href="https://zread.ai">https://zread.ai</a> - 直接体验产品所有功能。
+      </Card>
+    </Columns>
+  </Card>
+  <Card title="官方博客与技术介绍" icon="book-open">
+    <Columns>
+      <Card title="功能手册">
+        <a href="https://blog.csdn.net/u012842807/article/details/150338916">智谱推出神器Zread：GitHub 项目一键生成高质量使用手册</a>
+      </Card>
+      <Card title="高级教程">
+        <a href="https://segmentfault.com/a/1190000047265867">Zread 智能代码阅读伙伴，AI coding 离不开它</a>
+      </Card>
+      <Card title="模型解析">
+        <a href="https://cloud.tencent.com/developer/news/2832532">GLM-4.5 模型发布解析</a>
+      </Card>
+    </Columns>
+  </Card>
+  <Card title="进阶与社区" icon="users">
+    <Columns>
+      <Card title="社区解读">
+        GitHub Trending 解读与社区讨论
+      </Card>
+      <Card title="口碑与动态">
+        开源动态、真实口碑
+      </Card>
+      <Card title="功能解读">
+        <a href="https://news.qq.com/rain/a/20250906A0752F00">核心功能解读文章</a>
+      </Card>
+    </Columns>
+  </Card>
+</Columns>
