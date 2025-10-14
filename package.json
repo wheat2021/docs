@@ -4,7 +4,7 @@
   "description": "Mintlify 启动模板 - 文档网站",
   "main": "index.js",
   "scripts": {
-    "dev": "mint dev --port 3009",
+    "dev": "node scripts/generate-navigation.js && mint dev --port 3009",
     "build": "mint build",
     "check": "mint openapi-check",
     "update": "mint update",
@@ -19,8 +19,12 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "eslint": "^9.37.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "js-yaml": "^4.1.0",
     "mint": "^4.0.0",
-    "js-yaml": "^4.1.0"
+    "prettier": "^3.6.2"
   },
   "engines": {
     "node": ">=16.0.0"
