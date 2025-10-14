@@ -11,7 +11,7 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "mintlify",
+        "tab": "Mintlify 文档",
         "groups": [
           {
             "group": "快速开始",
@@ -67,7 +67,6 @@
               "docs/misc/ai-tools/ai-web-compare",
               "docs/misc/ai-tools/mintlify",
               "docs/misc/ai-tools/n8n",
-              "docs/misc/ai-tools/test",
               "docs/misc/ai-tools/warp.dev",
               "docs/misc/ai-tools/warp.dev2"
             ]
