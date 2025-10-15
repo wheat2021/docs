@@ -67,8 +67,13 @@
               "docs/misc/ai-tools/ai-web-compare",
               "docs/misc/ai-tools/mintlify",
               "docs/misc/ai-tools/n8n",
-              "docs/misc/ai-tools/warp.dev",
-              "docs/misc/ai-tools/warp.dev2"
+              {
+                "group": "Warp 终端",
+                "pages": [
+                  "docs/misc/ai-tools/warp.dev/index",
+                  "docs/misc/ai-tools/warp.dev/cli"
+                ]
+              }
             ]
           },
           {
