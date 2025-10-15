@@ -1,5 +1,5 @@
 ---
-title: "Warp 快速入门文档"
+title: "Warp - 命令行 AI Agent"
 description: "帮助新用户快速理解和上手 Warp 现代化终端的完整指南"
 ---
 
@@ -174,71 +174,133 @@ Warp 是一个现代化的代理开发环境（Agentic Development Environment�
 
 ## 快速入门场景
 
-<Steps>
-  <Step title="使用 AI 生成和执行命令">
-    <ul>
-      <li>打开 Warp 终端窗口</li>
-      <li>按 <code>Ctrl+I</code> 或输入 <code>* </code>（星号+空格）进入 Agent Mode</li>
-      <li>用自然语言描述任务，例如："找出当前目录下最大的 5 个文件并按大小排序"</li>
-      <li>按 <code>Enter</code> 执行 AI 查询，Warp 会生成相应命令并填充到输入框</li>
-      <li>再次按 <code>Enter</code> 执行该命令，或按 <code>Esc</code> 退出 Agent Mode</li>
-    </ul>
-  </Step>
+<AccordionGroup>
+  <Accordion title="使用 AI 生成和执行命令">
+    <Steps>
+      <Step title="启动 Agent Mode">
+        <p>打开 Warp 终端窗口，按 <code>Ctrl+I</code> 或输入 <code>* </code>（星号+空格）进入智能代理模式。</p>
+      </Step>
+      
+      <Step title="描述任务需求">
+        <p>用自然语言清楚地描述你的任务需求，例如：</p>
+        <p><em>"找出当前目录下最大的 5 个文件并按大小排序"</em></p>
+      </Step>
+      
+      <Step title="生成并执行命令">
+        <p>按 <code>Enter</code> 让 AI 分析需求并生成相应命令，命令会自动填充到输入框中。</p>
+      </Step>
+      
+      <Step title="执行或退出">
+        <p>再次按 <code>Enter</code> 执行生成的命令，或按 <code>Esc</code> 退出 Agent Mode 进行手动编辑。</p>
+      </Step>
+    </Steps>
+  </Accordion>
 
-  <Step title="快速搜索和执行历史命令">
-    <ul>
-      <li>按 <code>Ctrl+R</code> 打开 Command Search 面板</li>
-      <li>输入关键词进行模糊搜索（支持搜索命令历史、Workflows 和 Notebooks）</li>
-      <li>使用 <code>↑</code> / <code>↓</code> 键导航选择</li>
-      <li>按 <code>Enter</code> 将选中的命令插入到输入编辑器</li>
-      <li>修改参数后按 <code>Enter</code> 执行</li>
-    </ul>
-  </Step>
+  <Accordion title="快速搜索和执行历史命令">
+    <Steps>
+      <Step title="打开搜索面板">
+        <p>按 <code>Ctrl+R</code> 打开 Command Search 面板，这里汇集了命令历史、Workflows 和 Notebooks。</p>
+      </Step>
+      
+      <Step title="模糊搜索命令">
+        <p>输入关键词进行智能模糊搜索，系统会自动匹配相关的历史命令和工作流。</p>
+      </Step>
+      
+      <Step title="选择目标命令">
+        <p>使用 <code>↑</code> / <code>↓</code> 方向键浏览搜索结果，找到需要的命令。</p>
+      </Step>
+      
+      <Step title="插入并执行">
+        <p>按 <code>Enter</code> 将选中的命令插入到输入编辑器，根据需要修改参数后执行。</p>
+      </Step>
+    </Steps>
+  </Accordion>
 
-  <Step title="创建和执行 Workflow">
-    <ul>
-      <li>在 Warp Drive 面板（按 <code>Ctrl+Shift+.</code> 打开）中点击 "New Workflow"</li>
-      <li>定义 Workflow 名称和命令：</li>
-    </ul>
+  <Accordion title="创建和执行 Workflow">
+    <Steps>
+      <Step title="创建新工作流">
+        <p>在 Warp Drive 面板（按 <code>Ctrl+Shift+.</code> 打开）中点击 "New Workflow" 开始创建。</p>
+      </Step>
+      
+      <Step title="定义工作流配置">
+        <p>使用 YAML 格式定义工作流名称和命令：</p>
+        
+        ```yaml path=null start=null
+        name: 部署到生产环境
+        command: ssh user@prod-server 'cd /app && git pull && ./deploy.sh'
+        ```
+      </Step>
+      
+      <Step title="保存并使用">
+        <p>保存工作流后，通过 <code>Ctrl+R</code> 搜索该工作流名称即可快速执行。</p>
+      </Step>
+    </Steps>
+  </Accordion>
 
-    ```
-    name: 部署到生产环境
-    command: ssh user@prod-server 'cd /app && git pull && ./deploy.sh'
-    ```
+  <Accordion title="使用 Notebooks 作为操作手册">
+    <Steps>
+      <Step title="创建新笔记本">
+        <p>在 Warp Drive 中点击 "New Notebook" 创建一个可执行的文档。</p>
+      </Step>
+      
+      <Step title="编写文档内容">
+        <p>结合 Markdown 说明和可执行代码块，创建完整的操作手册或技术文档。</p>
+      </Step>
+      
+      <Step title="交互式执行">
+        <p>保存后，点击 Notebook 中代码块旁的运行图标，命令会自动插入到终端输入框等待执行。</p>
+      </Step>
+      
+      <Step title="执行命令">
+        <p>按 <code>Enter</code> 执行插入的命令，实现文档与操作的无缝结合。</p>
+      </Step>
+    </Steps>
+  </Accordion>
 
-    <ul>
-      <li>保存后，通过 <code>Ctrl+R</code> 搜索该 Workflow 名称并执行</li>
-    </ul>
-  </Step>
+  <Accordion title="调试代码并自动修复错误">
+    <Steps>
+      <Step title="执行代码测试">
+        <p>在 Git 仓库目录中运行代码编译、测试或构建命令。</p>
+      </Step>
+      
+      <Step title="触发 AI 分析">
+        <p>当出现错误时，点击输出 Block 旁的 AI 图标（sparkles icon）启动智能分析。</p>
+      </Step>
+      
+      <Step title="附加错误上下文">
+        <p>选择 "Attach blocks to AI query" 将完整的错误信息附加到 AI 查询中。</p>
+      </Step>
+      
+      <Step title="获取修复方案">
+        <p>输入自然语言描述，例如：<em>"修复这个 TypeScript 编译错误"</em>，AI 会分析并提供具体的修复代码。</p>
+      </Step>
+      
+      <Step title="应用修复">
+        <p>按照 AI 的建议应用代码修改，完成错误修复。</p>
+      </Step>
+    </Steps>
+  </Accordion>
 
-  <Step title="使用 Notebooks 作为操作手册">
-    <ul>
-      <li>在 Warp Drive 中点击 "New Notebook"</li>
-      <li>添加 Markdown 说明和代码块</li>
-      <li>保存后，在 Notebook 中点击代码块旁的运行图标，命令会自动插入到终端输入框</li>
-      <li>按 <code>Enter</code> 执行命令</li>
-    </ul>
-  </Step>
-
-  <Step title="调试代码并自动修复错误">
-    <ul>
-      <li>在 Git 仓库目录中运行代码编译或测试命令</li>
-      <li>如果出现错误，点击输出 Block 旁的 AI 图标（sparkles icon）</li>
-      <li>选择 "Attach blocks to AI query" 将错误信息附加到 AI 查询</li>
-      <li>输入自然语言请求，例如："修复这个 TypeScript 错误"</li>
-      <li>AI 会分析错误并生成修复代码，按提示应用修改</li>
-    </ul>
-  </Step>
-
-  <Step title="多窗格同步执行命令">
-    <ul>
-      <li>按 <code>Ctrl+Shift+D</code> 分割窗格</li>
-      <li>在多个窗格中打开需要同时操作的会话</li>
-      <li>启用 Synchronized Inputs 功能（在 Command Palette 中搜索 "Synchronized Inputs"）</li>
-      <li>在一个窗格中输入命令，所有窗格会同步执行</li>
-    </ul>
-  </Step>
-</Steps>
+  <Accordion title="多窗格同步执行命令">
+    <Steps>
+      <Step title="分割终端窗格">
+        <p>按 <code>Ctrl+Shift+D</code> 水平或垂直分割窗格，创建多个独立的终端会话。</p>
+      </Step>
+      
+      <Step title="打开目标会话">
+        <p>在各个窗格中分别打开需要同时操作的不同项目或服务器会话。</p>
+      </Step>
+      
+      <Step title="启用同步输入">
+        <p>在 Command Palette 中搜索并启用 "Synchronized Inputs" 功能。</p>
+      </Step>
+      
+      <Step title="同步执行命令">
+        <p>在任意一个窗格中输入命令，所有启用同步的窗格都会同时执行相同的命令。</p>
+      </Step>
+    </Steps>
+  </Accordion>
+</AccordionGroup>
 
 ## 其他实用功能
 
@@ -265,3 +327,25 @@ Warp 是一个现代化的代理开发环境（Agentic Development Environment�
     </ul>
   </Card>
 </Columns>
+
+## 快捷键速查
+
+<Tabs>
+  <Tab title="常用快捷键">
+    <Tip>`Ctrl + I` 进入Agent模式（AI助手模式）</Tip>
+    <Tip>`Ctrl + Shift + C` 复制终端内容</Tip>
+    <Tip>`Ctrl + Shift + V` 粘贴到终端</Tip>
+    <Tip>`Ctrl + L` 清屏</Tip>
+    <Tip>`Ctrl + Shift + Space` 把选中的block/text附加到Agent的上下文中</Tip>
+  </Tab>
+
+  <Tab title="自定义快捷键">
+    <Tip>`Ctrl + Shift + N` 开始新的 Agent 对话</Tip>
+    <Tip>`Ctrl + P` 命令搜索（历史命令、Workflows、Notebooks）</Tip>
+    <Tip>`Ctrl + Alt + S` 显示设置界面</Tip>
+    <Tip>`Ctrl + O` 切换文件面板</Tip>
+    <Tip>`Ctrl + T` 创建新bi标签页</Tip>
+    <Tip>`Ctrl + W` 关闭活动标签页</Tip>
+    <Tip>`Alt + K` 显示快捷键设置页面</Tip>
+  </Tab>
+</Tabs>
